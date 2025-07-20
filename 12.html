@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Deposit History</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1f1f1f;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #2c2c2c;
+      width: 100%;
+      min-height: 100vh;
+      max-width: 450px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .header h1 {
+      color: red;
+      font-size: 22px;
+      height: 167%;
+      margin: 28;
+    }
+
+    .back {
+      font-size: 24px;
+      color: red;
+      cursor: pointer;
+    }
+
+    .deposit {
+      font-size: 14px;
+      color: white;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .filter-buttons button {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      background-color: #3a3a3a;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .filter-buttons .active {
+      background-color: red;
+    }
+
+    .dropdowns {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    select {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      background-color: #444;
+      color: white;
+      border: none;
+    }
+
+    .calendar {
+      background-color: #e53935;
+      border-radius: 10px 10px 0 0;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .calendar-header span {
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .calendar-header h2 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .calendar-buttons {
+      background-color: #333;
+      border-radius: 0 0 10px 10px;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    .calendar-buttons button {
+      background: none;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .cancel {
+      color: red;
+    }
+
+    .ok {
+      color: white;
+    }
+
+    .select-datetime {
+      background-color: #3b3b3b;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+
+    .select-datetime h3 {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .time-select p {
+      color: #ccc;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .time-select select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #444;
+      border: none;
+      color: white;
+      border-radius: 6px;
+    }
+
+    .next {
+      width: 100%;
+      background-color: red;
+      border: none;
+      padding: 12px;
+      color: white;
+      font-weight: bold;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+         } 
+.icon-back-button {
+  background-color: #e3dbdb00;      /* Dark grey background */
+  color: white;                /* White arrow */
+  border: none;                /* No border */
+  font-size: 20px;             /* Arrow size */
+  padding: 5px 10px;           /* Chhoti padding */
+  border-radius: 4px;          /* Slightly rounded corners */
+  cursor: pointer;             /* Pointer on hover */
+  transition: background-color 0.3s ease;
+}
+
+.icon-back-button:hover {
+  background-color: #444;      /* Thoda dark on hover */
+}
+    .no-history {
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+     <button class="icon-back-button" onclick="window.location.href='1..html'">&lt;</button>
+      <h1>Deposit history</h1>
+      <span class="deposit">Deposit</span>
+    </div>
+
+    <div class="filter-buttons">
+      <button class="active">All</button>
+      <button>UPI-APP</button>
+      <button>UPI-Manual</button>
+      <button>Other</button>
+    </div>
+
+    <div class="dropdowns">
+      <select>
+        <option>All Status</option>
+      </select>
+      <select>
+        <option>All Time</option>
+      </select>
+    </div>
+
+    <div class="calendar">
+      <div class="calendar-header">
+        <span>&lt; 2018 &gt;</span>
+        <h2>Nov. 2018</h2>
+      </div>
+    </div>
+    <div class="calendar-buttons">
+      <button class="cancel">ABBRECHEN</button>
+      <button class="ok">OK</button>
+    </div>
+
+    <div class="select-datetime">
+      <h3>Select Date and Time</h3>
+      <div class="time-select">
+        <p>Please select the <strong>**Time**</strong> first.</p>
+        <select>
+          <option>-- : --</option>
+        </select>
+        <button class="next">Next</button>
+      </div>
+    </div>
+
+    <div class="no-history">
+      <p>No deposit history yet.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const yearLabel = document.querySelector('.calendar-header span');
+      const monthLabel = document.querySelector('.calendar-header h2');
+      const okBtn = document.querySelector('.ok');
+      const cancelBtn = document.querySelector('.cancel');
+      const nextBtn = document.querySelector('.next');
+      const timeDropdown = document.querySelector('.time-select select');
+      const noHistory = document.querySelector('.no-history');
+
+      let selectedYear = 2018;
+      let selectedMonth = 11;
+
+      const months = [
+        'Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.',
+        'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'
+      ];
+
+      function updateCalendarDisplay() {
+        yearLabel.textContent = `< ${selectedYear} >`;
+        monthLabel.textContent = `${months[selectedMonth - 1]} ${selectedYear}`;
+      }
+
+      yearLabel.addEventListener('click', () => {
+        selectedYear = selectedYear === 2018 ? 2019 : 2018;
+        updateCalendarDisplay();
+      });
+
+      cancelBtn.addEventListener('click', () => {
+        selectedYear = 2018;
+        selectedMonth = 11;
+        updateCalendarDisplay();
+      });
+
+      okBtn.addEventListener('click', () => {
+        alert(`Date selected: ${months[selectedMonth - 1]} ${selectedYear}`);
+      });
+
+      function populateTimeOptions() {
+        for (let h = 0; h < 24; h++) {
+          for (let m = 0; m < 60; m += 30) {
+            const time = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+            const option = document.createElement('option');
+            option.value = time;
+            option.textContent = time;
+            timeDropdown.appendChild(option);
+          }
+        }
+      }
+
+      populateTimeOptions();
+
+      nextBtn.addEventListener('click', () => {
+        const selectedTime = timeDropdown.value;
+        if (selectedTime === '-- : --') {
+          alert("Please select a time first.");
+        } else {
+          noHistory.innerHTML = `<p>No deposits on ${months[selectedMonth - 1]} ${selectedYear} at ${selectedTime}.</p>`;
+        }
+      });
+
+      updateCalendarDisplay();
+    });
+  </script>
+</body>
+</html>

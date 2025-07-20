@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Withdraw Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #1a1a1a, #2e2e2e);
+      color: #fff;
+      padding: 0 10px;
+    }
+
+    .container {
+      max-width: 450px;
+      margin: 20px auto 40px;
+      background: #2c2c2c;
+      padding: 25px 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    .highlight-top {
+      background: #ff0000;
+      color: white;
+      padding: 8px 14px;
+      font-weight: bold;
+      font-size: 14px;
+      border-radius: 50px;
+      box-shadow: 0 0 6px #ff0000;
+      white-space: nowrap;
+    }
+
+    .back-btn {
+      background-color: #555;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .back-btn:hover {
+      background-color: #777;
+    }
+
+    h2.glow-text {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #ffffff;
+      text-shadow: 0 0 10px red, 0 0 20px red;
+    }
+
+    .balance {
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .wallets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .wallet {
+      flex: 1 1 calc(33.33% - 10px);
+      background-color: #404040;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #606060;
+      cursor: pointer;
+    }
+
+    .wallet:hover {
+      background-color: #555;
+    }
+
+    .promo {
+      background-color: #1f1f1f;
+      border: 1px dashed #ff9900;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .btn {
+      width: 100%;
+      background-color: #e60000;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #c40000;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      background: #202020;
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    .back-button {
+      background-color: red;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+      transition: transform 0.2s;
+    }
+    .back-button:hover {
+      transform: scale(1.05);
+    }
+
+    .withdraw-info {
+      font-size: 13px;
+      color: #bbb;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    @media (max-width: 480px) {
+      .wallet {
+        flex: 1 1 100%;
+      }
+      .top-bar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Withdraw Page -->
+    <div id="withdraw" class="page active">
+      <div class="top-bar">
+        <a href="1..html" class="back-button">← Back</a>
+        <div class="highlight-top">Add a bank account number</div>
+      </div>
+
+      <h2 class="glow-text">Available Balance</h2>
+      <div class="balance">₹0</div>
+
+      <div class="wallets">
+        <div class="wallet" onclick="showPage('bank')">BgCash</div>
+        <div class="wallet" onclick="showPage('bank')">Bank Card</div>
+        <div class="wallet" onclick="showPage('bank')">Rupeelink Wallet</div>
+      </div>
+
+      <div class="promo">
+        RS INSTANT PAYOUTS IN BGCASH<br/>
+        <strong>3% BONUS ON WITHDRAW</strong> + 30 MINS FAST PAYMENT<br/>
+        UPI SUPPORTED
+      </div>
+
+      <button class="btn">Bind Wallet</button>
+      <input type="number" placeholder="₹ Enter withdrawal amount"/>
+
+      <div class="withdraw-info">
+        Withdrawal balance: ₹0<br/>
+        Amount received: ₹0
+      </div>
+      <button class="btn">Withdraw</button>
+      <div class="withdraw-info">
+        Withdrawal available after betting ₹0.<br/>
+        Turnover may take 10 minutes to update.<br/>
+        Withdraw time: 00:00–23:59<br/>
+        Daily withdrawal limit: 3<br/>
+        Amount range: ₹100–₹50000<br/>
+        Verify account info before withdrawal.
+      </div>
+    </div>
+
+    <!-- Bank Page -->
+    <div id="bank" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="showPage('withdraw')">← Back</button>
+        <div class="highlight-top">ADD A BANK ACCOUNT</div>
+      </div>
+
+      <div class="withdraw-info">
+        To ensure the safety of your funds, please bind your bank account.
+      </div>
+
+      <label>Choose a bank</label>
+      <select>
+        <option>Please select a bank</option>
+        <option>State Bank of India</option>
+        <option>ICICI Bank</option>
+        <option>HDFC Bank</option>
+      </select>
+
+      <label>Full recipient's name</label>
+      <input type="text" placeholder="Please enter the recipient's name"/>
+
+      <label>Bank account number</label>
+      <input type="text" placeholder="Please enter your bank account number"/>
+
+      <label>IFSC CODE</label>
+      <input type="text" placeholder="Please enter IFSC code"/>
+
+      <button class="btn">Save</button>
+
+      <div class="withdraw-info" style="margin-top: 20px;">
+        Need to bet ₹0 to be able to withdraw.<br/>
+        Betting turnover has a 10-minute delay, please wait.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+  </script>
+</body>
+</html>

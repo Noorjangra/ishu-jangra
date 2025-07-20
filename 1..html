@@ -1,0 +1,3768 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>DIUWIN Games</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
+/* Global Styles for both pages */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body {
+/* Dark light background with a subtle gradient */
+background: linear-gradient(135deg, #2c3e50, #34495e);
+min-height: auto;
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+flex-direction: column; /* To stack login and game sections if not hidden */
+overflow-y: auto; /* Allow body to scroll if content is larger */
+}
+
+/* Styles for the Login/Register Page */
+#login-register-page {
+display: flex; /* Initially flex to center content */
+flex-direction: column;
+align-items: center;
+justify-content: center;
+width: 100%;
+min-height: auto; /* Takes full viewport height */
+position: absolute; /* Position over the body */
+top: 0;
+left: 0;
+z-index: 1001; /* Ensure it's above game page when active */
+}
+
+.language-switcher {
+position: absolute;
+top: 20px;
+left: 20px;
+z-index: 100; /* Ensure it's above other elements */
+}
+
+.language-switcher select {
+padding: 6px 10px;
+font-size: 14px;
+border-radius: 6px;
+}
+
+.container { /* This is the login/register form container */
+width: 100%;
+max-width: 360px;
+/* Adjusted to dark for consistency */
+background: #333;
+border-radius: 15px;
+box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+overflow: hidden;
+margin-top: 50px; /* Adjust if needed */
+}
+
+.tab-header {
+display: flex;
+}
+
+.tab-btn {
+flex: 1;
+text-align: center;
+padding: 15px;
+font-weight: bold;
+cursor: pointer;
+color: white;
+/* Adjusted to dark for consistency */
+background: #222;
+transition: background 0.3s ease;
+}
+
+.tab-btn.active {
+background: #ff4d4d;
+color: white;
+}
+
+.form-content { padding: 25px; }
+.form-content > div { display: none; }
+.form-content > div.active { display: block; }
+
+.logo-img {
+    text-align: center; /* centers image inside this div */
+}
+
+.logo-img img {
+    height: 220px;              /* Increased size */
+    width: auto;                /* Keep aspect ratio */
+    filter: drop-shadow(0 0 10px #ff9999);
+}
+
+
+
+
+.form-group { margin-bottom: 15px; position: relative;} /* Added position relative for icon positioning */
+.form-group label {
+display: block;
+margin-bottom: 5px;
+color: white;
+font-size: 14px;
+}
+
+.phone-input-group {
+display: flex; /* For inline display of country code and phone number */
+gap: 5px;
+align-items: center; /* Align items vertically in the middle */
+}
+
+.phone-input-group select,
+.phone-input-group input {
+padding: 10px;
+border-radius: 6px;
+border: none;
+outline: none;
+font-size: 14px;
+background: #444; /* Darker input background */
+color: white;
+}
+.phone-input-group select option {
+background: #444; /* For consistency with select background */
+color: white;
+}
+
+.phone-input-group select {
+flex-shrink: 0; /* Prevent select from shrinking */
+width: 100px; /* Increased width for country code */
+}
+
+.phone-input-group input {
+flex-grow: 1; /* Allow input to take remaining space */
+padding-right: 35px; /* Make space for the eye icon if applicable */
+}
+
+.form-group input {
+width: 100%; /* Default for inputs not in phone-input-group */
+padding: 10px;
+border-radius: 6px;
+border: none;
+outline: none;
+font-size: 14px;
+padding-right: 35px; /* Make space for the eye icon */
+background: #444; /* Darker input background */
+color: white;
+}
+
+.toggle-password {
+position: absolute;
+right: 10px;
+top: 60%; /* Adjust as needed for alignment */
+transform: translateY(-50%);
+cursor: pointer;
+color: #bbb; /* Lighter icon color */
+font-size: 1.1em;
+}
+
+.captcha-container {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+#register-captcha, #login-captcha {
+display: inline-block;
+font-weight: bold;
+font-size: 16px;
+background-color: #555; /* Darker captcha background */
+padding: 5px 10px;
+border-radius: 6px;
+color: white;
+}
+
+.captcha-refresh {
+cursor: pointer;
+color: #ccc; /* Lighter refresh icon */
+font-size: 1.2em;
+}
+
+.auth-button {
+width: 100%;
+padding: 12px;
+margin-top: 10px;
+font-size: 16px;
+border: none;
+border-radius: 25px;
+cursor: pointer;
+background: linear-gradient(to right, #ff3333, #cc0000);
+color: white;
+transition: background 0.3s ease;
+}
+
+.auth-button:hover {
+background: linear-gradient(to right, #e60000, #b30000);
+}
+
+.auth-button:disabled {
+opacity: 0.6;
+cursor: not-allowed;
+}
+
+.secondary-btn {
+background: transparent;
+border: 1px solid #ff4d4d;
+color: white;
+margin-top: 10px;
+padding: 12px;
+width: 100%;
+border-radius: 25px;
+cursor: pointer;
+transition: background 0.3s ease, color 0.3s ease;
+}
+.secondary-btn:hover {
+background: #ff4d4d;
+color: white;
+}
+
+.footer-links {
+text-align: center;
+margin-top: 20px;
+color: white;
+}
+
+.footer-links a {
+color: #ffcccc;
+text-decoration: none;
+margin: 0 5px;
+cursor: pointer;
+}
+
+.contact-box {
+background: #444;
+color: white;
+padding: 12px;
+border-radius: 8px;
+margin-bottom: 10px;
+display: flex;
+justify-content: space-between;
+cursor: pointer;
+transition: background 0.3s ease;
+}
+.contact-box:hover {
+background: #555;
+}
+
+.contact-box i { color: #ff4d4d; }
+
+.tips {
+font-size: 13px;
+color: #eee;
+margin: 10px 0;
+}
+
+.error-message {
+background-color: #ffcccc;
+color: #cc0000;
+padding: 10px;
+border-radius: 8px;
+margin-bottom: 15px;
+text-align: center;
+font-weight: bold;
+display: none;
+}
+
+/* Styles for the Game Page */
+#game-page {
+width: 100%;
+min-height: auto;
+background: #363636;
+color: #fff;
+max-width: 480px;
+margin: auto; /* Center the game page content */
+overflow-x: hidden;
+display: none;
+position: relative; /* Changed to relative for normal flow */
+padding-bottom: 80px; /* Space for fixed bottom nav */
+}
+
+#game-page::before {
+content: none;
+}
+
+.diuwin-header {
+text-align: center;
+padding: 25px 15px 0;
+font-size: 2.2em;
+font-weight: 900;
+background: transparent;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-image: linear-gradient(270deg, #ff4e50, #f9d423, #ff4e50);
+animation: gradientMove 5s ease infinite;
+text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+border-bottom: 2px solid #ffdddd;
+letter-spacing: 2px;
+position: relative;
+max-width: 300px;
+margin: 20px auto 0;
+padding-bottom: 5px;
+}
+@keyframes gradientMove {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+.banner {
+display: none;
+}
+.jackpot-info {
+background: linear-gradient(135deg, #3a1c71, #d76d77, #ffecd2);
+color: white;
+padding: 15px 12px;
+margin: 18px 12px;
+border-radius: 14px;
+box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+text-align: center;
+font-size: 1em;
+font-weight: bold;
+overflow: hidden;
+position: relative;
+z-index: 1;
+}
+
+.jackpot-info::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(255, 255, 255, 0.1);
+z-index: -1;
+border-radius: inherit;
+}
+
+.jackpot-amount {
+font-size: 1.6em;
+margin-bottom: 5px;
+text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+transition: all 0.5s ease-out;
+}
+
+.winning-info {
+padding: 15px 12px;
+background: rgba(255,255,255,0.07);
+margin: 18px 12px;
+border-radius: 14px;
+box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+backdrop-filter: blur(6px);
+}
+
+.winning-info-title {
+font-size: 1.1em;
+color: #ffeaea;
+font-weight: bold;
+margin-bottom: 10px;
+border-left: 4px solid #aaffaa;
+padding-left: 10px;
+}
+
+#winningList {
+color: #ccffcc;
+font-size: 0.85em;
+line-height: 1.5;
+max-height: 150px;
+overflow-y: auto;
+padding-right: 10px;
+}
+
+.earnings-chart {
+padding: 15px 12px;
+background: rgba(255,255,255,0.07);
+margin: 18px 12px;
+border-radius: 14px;
+box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+backdrop-filter: blur(6px);
+}
+
+.earnings-chart-title {
+font-size: 1.1em;
+color: #ffeaea;
+font-weight: bold;
+margin-bottom: 10px;
+border-left: 4px solid #aaaaff;
+padding-left: 10px;
+}
+
+.earnings-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+gap: 8px;
+text-align: center;
+font-size: 0.8em;
+color: #e0e0ff;
+}
+
+.earnings-item {
+background: rgba(255,255,255,0.1);
+padding: 8px;
+border-radius: 8px;
+box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.tabs {
+display: flex;
+justify-content: space-around;
+padding: 10px 0;
+background: rgba(255,255,255,0.1);
+border-radius: 10px;
+margin: 10px;
+box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+.tab {
+text-align: center;
+font-size: 0.75em;
+color: #ffeaea;
+font-weight: bold;
+}
+.tab img {
+width: 26px;
+height: 26px;
+display: block;
+margin: auto;
+}
+.section {
+padding: 15px 12px;
+background: rgba(255,255,255,0.07);
+margin: 18px 12px;
+border-radius: 14px;
+box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+backdrop-filter: blur(6px);
+}
+.section-title {
+font-size: 1.2em;
+color: #ffeaea;
+font-weight: bold;
+margin-bottom: 15px;
+border-left: 4px solid #ffaaaa;
+padding-left: 10px;
+}
+.games-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
+gap: 14px;
+}
+.game-card {
+background: linear-gradient(135deg, #ff4e50, #c40000);
+color: white;
+padding: 14px 10px;
+border-radius: 12px;
+text-align: center;
+font-weight: bold;
+font-size: 0.95em;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+}
+.game-card:hover {
+transform: scale(1.05);
+background: linear-gradient(to right, #f20000, #b00000);
+}
+.game-card span {
+display: block;
+font-size: 0.7em;
+margin-top: 5px;
+color: #fff0f0;
+}
+.bottom-nav {
+position: fixed;
+bottom: 0;
+width: 100%;
+max-width: 480px; /* Match the max-width of the game page */
+left: 50%;
+transform: translateX(-50%);
+background: rgba(255,255,255,0.08);
+border-top: 1px solid #ffcccc;
+display: flex;
+justify-content: space-around;
+padding: 10px 0;
+z-index: 1000;
+backdrop-filter: blur(6px);
+}
+.bottom-nav a {
+text-decoration: none;
+color: #fff;
+font-weight: bold;
+font-size: 0.75em;
+text-align: center;
+}
+.bottom-nav a span {
+display: block;
+font-size: 1.4em;
+}
+.bottom-padding {
+height: 120px; /* Adjusted to match bottom-nav height */
+}
+
+/* Gemini feature button style */
+.gemini-feature-button {
+background: linear-gradient(to right, #28a745, #218838);
+color: white;
+border: none;
+padding: 6px 10px;
+border-radius: 8px;
+font-size: 0.8em;
+cursor: pointer;
+margin-top: 8px;
+transition: background 0.3s ease, transform 0.2s ease;
+width: fit-content;
+display: block;
+margin-left: auto;
+margin-right: auto;
+}
+.gemini-feature-button:hover {
+background: linear-gradient(to right, #218838, #1e7e34);
+transform: translateY(-2px);
+}
+
+/* Custom Message Box Styles */
+#customMessageBoxModal {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0,0,0,0.7);
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 2000;
+}
+#customMessageBoxModal > div {
+background: #333;
+color: white;
+padding: 25px;
+border-radius: 15px;
+max-width: 90%;
+width: 400px;
+box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+text-align: center;
+position: relative;
+}
+#customMessageBoxModal .fa-times-circle {
+position: absolute;
+top: 10px;
+right: 10px;
+font-size: 1.5em;
+cursor: pointer;
+color: #ccc;
+}
+#customMessageBoxModal h3 {
+margin-bottom: 15px;
+color: #ff4d4d;
+font-size: 1.4em;
+}
+#customMessageBoxModal p {
+font-size: 1em;
+line-height: 1.5;
+max-height: 200px;
+overflow-y: auto;
+text-align: left;
+padding: 0 10px;
+ }
+    .history-container {
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 12px;
+      width: 347px;
+      color: white;
+    }
+    .history-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .history-title::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background-color: red;
+      margin-right: 8px;
+      border-radius: 2px;
+    }
+
+    .history-title span {
+      color: red;
+      font-weight: bold;
+    }
+
+    .history-item {
+      background-color: #2b2b2b;
+      padding: 10px 14px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      display: block;
+      width: 100%;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .history-item:hover {
+      background-color: #3a3a3a;
+    }
+#account-page {
+  padding: 20px 0;
+  background-color: #000;
+}
+
+
+#account-page {
+  padding: 0;
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  min-height: auto;
+}
+
+
+
+
+
+
+/* Screenshot-Matched Styling for Account Page */
+#account-page {
+  background-color: #000;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+#account-page .header {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: #ff0000;
+  padding: 30px 0 10px;
+  text-shadow: 0 0 10px #ff0000;
+}
+
+
+
+#account-page .profile {
+  text-align: center;
+  margin-bottom: 15px;
+}
+#account-page .profile img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+#account-page h3 {
+  margin: 5px 0;
+  font-size: 18px;
+}
+#account-page small {
+  color: #ccc;
+  font-size: 12px;
+}
+
+#account-page .balance {
+  background-color: #222;
+  padding: 15px;
+  text-align: center;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+#account-page .balance p {
+  font-size: 14px;
+  color: #aaa;
+}
+#account-page .balance h2 {
+  margin-top: 5px;
+  font-size: 24px;
+  color: #fff;
+}
+
+#account-page .menu {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+#account-page .menu-item {
+  flex: 1;
+  background-color: red;
+  padding: 10px 0;
+  text-align: center;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+#account-page .section {
+  margin-bottom: 20px;
+}
+#account-page .section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: red;
+}
+
+#account-page .item {
+  background-color: #222;
+  padding: 12px 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: 15px;
+}
+#account-page .lang {
+  float: right;
+  color: #fff;
+}
+
+#account-page .container {
+  width: 389px;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 16px;
+  background-color: #111;
+  box-shadow: 0 0 14px rgba(255, 0, 0, 0.35);
+}
+
+</style>
+<style>
+  #account-page {
+    background-color: #000;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 20px 0;
+    color: white;
+  }
+  #account-page .header {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #ff0000;
+    text-shadow: 0 0 10px #ff0000;
+    margin-bottom: 20px;
+  }
+  
+  #account-page .profile {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  #account-page .profile img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  #account-page h3 {
+    margin: 5px 0;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  #account-page small {
+    color: #aaa;
+    font-size: 13px;
+  }
+  #account-page .balance {
+    background-color: #222;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  #account-page .balance h2 {
+    font-size: 28px;
+    color: white;
+  }
+  #account-page .menu {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  #account-page .menu-item  {
+    background: red;
+    color: white;
+    border-radius: 12px;
+    padding: 10px 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  #account-page .menu-item a {
+  background: red;
+  color: white;
+  border-radius: 12px;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: none; /* ✅ Removes underline */
+}
+
+  #account-page .section-title {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  #account-page .item {
+    background-color: #1b1b1b;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 15px;
+  }
+  #account-page .lang {
+    float: right;
+    color: white;
+  }
+</style>
+<style>
+        :root {
+            /* Updated Colors based on screenshots */
+            --primary-dark-bg: #363636; /* Dark background for the entire page */
+            --card-dark-bg: #404040; /* Slightly lighter dark for cards/sections */
+            --header-bg: #404040; /* Header background matches card */
+            --red-button: #dc3545; /* Red color for primary buttons */
+            --red-button-hover: #c82333; /* Darker red on hover */
+            --green-text-accent: #28a745; /* Green for winning/success */
+            --yellow-accent: #ffc107; /* Yellow for balance/jackpot */
+            --text-light: #ffffff; /* White text for most elements */
+            --text-subtle: #b0b0b0; /* Light grey for subtle text */
+            --border-dark: #555555; /* Darker border for separation */
+            --input-bg: #4a4a4a; /* Darker background for inputs */
+            --input-border: #666666;
+            --shadow-dark: 0 4px 8px rgba(0,0,0,0.3); /* Darker shadow */
+
+            /* Deposit Page Specific */
+            --channel-active-bg: #28a745; /* Green for active channel */
+            --channel-inactive-bg: #5a5a5a; /* Darker grey for inactive channels */
+
+            /* Deposit History Page Specific */
+            --filter-button-bg: #5a5a5a; /* Darker grey for inactive filter buttons */
+            --filter-button-active-bg: var(--red-button); /* Red for active filter button */
+            --filter-button-active-text: var(--text-light);
+            --status-processing: #ffc107;
+            --status-success: #28a745;
+            --status-failed: #dc3545;
+
+            /* Month Picker Specific Styles (adjusted for dark theme) */
+            --month-picker-bg: var(--card-dark-bg);
+            --month-picker-header-bg: var(--red-button); /* Use red for picker header */
+            --month-picker-header-text: var(--text-light);
+            --month-picker-month-active-bg: var(--green-text-accent); /* Green for active month */
+            --month-picker-month-text: var(--text-light); /* Light text on dark month items */
+            --month-picker-button-text: var(--red-button); /* Red for picker action buttons */
+            --month-item-bg: #5a5a5a; /* Darker grey for inactive months */
+            --month-item-hover-bg: #6a6a6a;
+
+            /* Chat Specific (already dark-friendly, adjust if needed) */
+            --chat-bg: var(--card-dark-bg); /* Same as card bg */
+            --chat-border: #555555;
+            --chat-header-bg: #5a5a5a;
+            --chat-message-bg-outgoing: #28a745; /* Green for outgoing */
+            --chat-message-bg-incoming: #5a5a5a; /* Darker grey for incoming */
+
+            /* Date Range Picker Modal Specific Styles */
+            --modal-overlay-bg: rgba(0, 0, 0, 0.7); /* Dark semi-transparent overlay */
+            --modal-content-bg: var(--card-dark-bg);
+            --modal-button-bg: var(--red-button);
+            --modal-button-text: var(--text-light);
+            --modal-input-bg: var(--input-bg);
+            --modal-input-border: var(--input-border);
+
+            /* QR Payment Page Specific Colors */
+            --button-blue: #007bff; /* Example blue, adjust if exact hex is found */
+            --button-blue-hover: #0056b3;
+            --light-border: #666666;
+            --qr-border: #888888;
+            --timer-bg: #5a5a5a; /* Darker grey for timer background */
+            --timer-text: #ffffff;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-dark-bg);
+            color: var(--text-light);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 500px;   
+            margin: 0 auto;
+            background-color: var(--primary-dark-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-dark);
+            position: relative; /* For chat icon and modals */
+        }
+
+        /* Page specific wrappers */
+        .page-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; /* Allows content to fill space */
+        }
+
+        .page-section.hidden {
+            display: none;
+        }
+
+        /* Common Header Styles */
+        .header {
+            background-color: var(--header-bg);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-dark);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .back-arrow {
+        display: none !important;
+    }
+
+        .header .title-deposit {
+        font-size: 22px !important;
+        font-weight: bold !important;
+        color: #ff4444 !important;
+        text-align: center;
+        margin-left: 5px;
+        text-shadow: 0 0 4px rgba(255,0,0,0.4) !important;
+    }
+    .header .title-pay {
+  font-size: 22px !important;
+  font-weight: bold !important;
+  color: #ff4444 !important;
+  text-align: right;
+  margin: 0; /* Remove left margin */
+  text-shadow: 0 0 4px rgba(255,0,0,0.4) !important;
+}
+
+        .header .link {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 14px;
+            padding-left: 15px;
+            white-space: nowrap; /* Prevent wrapping */
+        }
+
+        /* --- Deposit Page Styles --- */
+        .balance-card {
+            background: linear-gradient(135deg, #ffa000, #ff6f00); /* Orange/Yellow Gradient */
+            color: var(--text-light);
+            padding: 20px;
+            margin: 15px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-dark);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .balance-card .label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+
+        .balance-card .amount {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .balance-card .refresh-icon {
+            font-size: 18px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .section-header {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin: 15px 15px 10px 15px;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 15px;
+            background-color: var(--card-dark-bg);
+            margin: 0 15px 15px 15px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-dark);
+        }
+
+        .payment-method-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-subtle);
+            font-size: 13px;
+            transition: background-color 0.2s, color 0.2s;
+            position: relative; /* For the plus icon */
+        }
+
+        .payment-method-item img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 5px;
+        }
+
+        .payment-method-item .plus-icon {
+            font-size: 10px;
+            background-color: var(--green-text-accent);
+            color: var(--text-light);
+            border-radius: 50%;
+            padding: 2px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-method-item.active {
+            color: var(--text-light); /* Only color changes for active payment method */
+        }
+        .payment-method-item[data-channel="ff-pay"] img {
+             background-color: var(--green-text-accent);
+             border-radius: 50%;
+             padding: 5px;
+        }
+
+        .channel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 0 15px;
+            padding: 15px;
+            background-color: var(--card-dark-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow-dark);
+        }
+
+        .channel-item {
+            background-color: var(--channel-inactive-bg);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .channel-item.active {
+            background-color: var(--channel-active-bg);
+        }
+
+        .channel-item .balance-range {
+            font-size: 12px;
+            color: var(--text-subtle);
+            margin-top: 5px;
+        }
+
+        .deposit-amount-section {
+            margin: 15px;
+            padding: 15px;
+            background-color: var(--card-dark-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow-dark);
+        }
+
+        .amount-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .amount-btn {
+            background-color: var(--channel-inactive-bg);
+            color: var(--text-light);
+            padding: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .amount-btn.active {
+            background-color: var(--red-button);
+        }
+
+        .custom-amount-input {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 25px;
+            padding: 5px 15px;
+        }
+
+        .custom-amount-input input {
+            flex-grow: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text-light);
+            font-size: 16px;
+            padding: 5px 0;
+        }
+
+        .custom-amount-input .currency-symbol {
+            color: var(--text-subtle);
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .custom-amount-input .clear-btn {
+            background: none;
+            border: none;
+            color: var(--text-subtle);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+
+        .deposit-button {
+        width: 100% !important;
+        background: linear-gradient(to right, #ff4d4d, #cc0000) !important;
+        color: white !important;
+        padding: 14px !important;
+        border: none !important;
+        border-radius: 40px !important;
+        font-size: 18px !important;
+        font-weight: bold !important;
+        cursor: pointer !important;
+        margin-top: 20px !important;
+        box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4) !important;
+        text-align: center !important;
+    }
+
+        .deposit-button:hover {
+            background-color: var(--red-button-hover);
+        }
+
+        .recharge-instructions {
+            margin: 15px;
+            padding: 15px;
+            background-color: var(--card-dark-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow-dark);
+            color: var(--text-subtle);
+            font-size: 13px;
+        }
+
+        .recharge-instructions ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .recharge-instructions li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 18px;
+        }
+
+        .recharge-instructions li::before {
+            content: '•';
+            color: var(--green-text-accent);
+            font-size: 20px;
+            line-height: 1;
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        /* --- Deposit History Page Styles --- */
+        .filter-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 15px;
+            background-color: var(--card-dark-bg);
+            border-bottom: 1px solid var(--border-dark);
+            gap: 10px;
+        }
+
+        .filter-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 5px;
+            background-color: var(--filter-button-bg);
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-subtle);
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            height: 38px;
+            box-sizing: border-box;
+        }
+
+        .filter-btn img {
+            height: 18px;
+            width: 18px;
+            margin-right: 5px;
+            filter: invert(100%);
+        }
+        .filter-btn[data-filter-type="all"] img {
+            filter: none;
+        }
+
+        .filter-btn.active {
+            background-color: var(--filter-button-active-bg);
+            color: var(--filter-button-active-text);
+        }
+        .filter-btn.active img {
+            filter: none;
+        }
+
+        .filter-content-area {
+            padding: 10px 15px;
+            background-color: var(--card-dark-bg);
+            border-bottom: 1px solid var(--border-dark);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap; /* Allow wrapping for better responsiveness */
+        }
+
+        .filter-dropdown {
+            flex: 1;
+            min-width: 120px; /* Ensure dropdowns don't get too small */
+            padding: 8px 10px;
+            border: 1px solid var(--input-border);
+            border-radius: 5px;
+            background-color: var(--input-bg);
+            color: var(--text-light);
+            font-size: 14px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23b0b0b0%22%20d%3D%22M287%2069.9a15.8%2015.8%200%200%200-22.3%200L146.2%20188.7%2027.6%2069.9a15.8%2015.8%200%200%200-22.3%2022.3l129.8%20129.8a15.8%2015.8%200%200%200%2022.3%200L287%2092.2a15.8%2015.8%200%200%200%200-22.3z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 8px top 50%;
+            background-size: 12px auto;
+            cursor: pointer;
+        }
+
+        /* Date Time Chat Styles */
+        .date-time-chat-container {
+            display: flex; /* Changed from none to flex by default, hidden by JS */
+            flex-direction: column;
+            background-color: var(--chat-bg);
+            border: 1px solid var(--chat-border);
+            border-radius: 8px;
+            margin: 10px 0; /* Adjust margin to sit within filter-content-area */
+            overflow: hidden;
+            box-shadow: var(--shadow-dark);
+            max-height: 350px;
+            width: 100%; /* Take full width of parent */
+        }
+
+        .date-time-chat-header {
+            background-color: var(--chat-header-bg);
+            padding: 10px 15px;
+            font-weight: 500;
+            border-bottom: 1px solid var(--chat-border);
+            color: var(--text-light);
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 180px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        .chat-message {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 15px;
+            line-height: 1.4;
+            font-size: 14px;
+        }
+
+        .chat-message.incoming {
+            background-color: var(--chat-message-bg-incoming);
+            color: var(--text-light);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        .chat-message.outgoing {
+            background-color: var(--chat-message-bg-outgoing);
+            color: var(--text-light);
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .chat-input-area {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 15px;
+            border-top: 1px solid var(--chat-border);
+            background-color: var(--card-dark-bg);
+            gap: 10px;
+        }
+
+        .chat-input-area input,
+        .chat-input-area select {
+            width: 100%;
+            border: 1px solid var(--input-border);
+            border-radius: 20px;
+            padding: 8px 15px;
+            outline: none;
+            font-size: 14px;
+            box-sizing: border-box;
+            background-color: var(--input-bg);
+            color: var(--text-light);
+        }
+        .chat-input-area select option {
+             background-color: var(--input-bg);
+             color: var(--text-light);
+        }
+
+        .chat-input-area button {
+            background-color: var(--red-button);
+            color: var(--text-light);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            width: 100%;
+        }
+
+        .chat-input-area button:hover {
+            background-color: var(--red-button-hover);
+        }
+
+        /* Custom Month Picker Styles */
+        .month-picker-container {
+            display: flex; /* Changed from none to flex by default, hidden by JS */
+            flex-direction: column;
+            background-color: var(--month-picker-bg);
+            border: 1px solid var(--border-dark);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            box-shadow: var(--shadow-dark);
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .month-picker-header {
+            background-color: var(--month-picker-header-bg);
+            color: var(--month-picker-header-text);
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .month-picker-header .selected-month-year {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .month-picker-header .year-selector {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .month-picker-header .year-selector button {
+            background: none;
+            border: none;
+            color: var(--month-picker-header-text);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 10px;
+            transition: opacity 0.2s;
+        }
+        .month-picker-header .year-selector button:hover {
+            opacity: 0.8;
+        }
+
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 15px;
+        }
+
+        .month-item {
+            background-color: var(--month-item-bg);
+            color: var(--month-picker-month-text);
+            padding: 10px 5px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+        }
+
+        .month-item:hover {
+            background-color: var(--month-item-hover-bg);
+        }
+
+        .month-item.selected {
+            background-color: var(--month-picker-month-active-bg);
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .month-picker-actions {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 15px;
+            gap: 10px;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .month-picker-actions button {
+            background: none;
+            border: none;
+            color: var(--month-picker-button-text);
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+        }
+
+        .month-picker-actions button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .deposit-item-card {
+            background-color: var(--card-dark-bg);
+            margin: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-dark);
+            box-shadow: var(--shadow-dark);
+            color: var(--text-light);
+        }
+
+        .deposit-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--border-dark);
+        }
+
+        .deposit-item-header .deposit-label {
+            background-color: var(--green-text-accent);
+            color: var(--text-light);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .deposit-item-header .status {
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .deposit-item-header .status.processing {
+            color: var(--status-processing);
+        }
+        .deposit-item-header .status.success {
+            color: var(--status-success);
+        }
+        .deposit-item-header .status.failed {
+            color: var(--status-failed);
+        }
+
+        .deposit-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .deposit-details .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .deposit-details .label {
+            color: var(--text-subtle);
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        .deposit-details .value {
+            font-weight: 500;
+            text-align: right;
+            flex-grow: 1;
+        }
+
+        .deposit-details .value.amount {
+            color: var(--yellow-accent);
+        }
+
+        .deposit-details .order-copy {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-grow: 1;
+        }
+
+        .deposit-details .order-copy .copy-icon {
+            font-size: 18px;
+            margin-left: 8px;
+            color: var(--text-subtle);
+            cursor: pointer;
+        }
+
+        .no-more {
+            text-align: center;
+            color: var(--text-subtle);
+            padding: 20px;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        /* Floating Chat Icon (Common) */
+        .chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #f7bb34;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1001;
+            transition: background-color 0.2s;
+        }
+
+        .chat-icon:hover {
+            background-color: #e6a72e;
+        }
+
+        /* Date Range Picker Modal Styles */
+        .date-range-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-overlay-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .date-range-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .date-range-modal-content {
+            background-color: var(--modal-content-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-dark);
+            width: 90%;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .date-range-modal-overlay.show .date-range-modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 500;
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .modal-date-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .modal-date-inputs label {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            font-size: 13px;
+            color: var(--text-subtle);
+        }
+
+        .modal-date-inputs input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--modal-input-border);
+            border-radius: 5px;
+            background-color: var(--modal-input-bg);
+            color: var(--text-light);
+            font-size: 14px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23b0b0b0%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%223%22%20y%3D%224%22%20width%3D%2218%22%20height%3D%2218%22%20rx%3D%222%22%22%20ry%3D%222%22%3E%3C%2Frect%3E%3Cline%20x1%3D%2216%22%20y1%3D%222%22%20x2%3D%2216%22%20y2%3D%226%22%3E%3C%2Fcline%3E%3Cline%20x1%3D%228%22%20y1%3D%222%22%20x2%3D%228%22%20y2%3D%226%22%3E%3C%2Fcline%3E%3Cline%20x1%3D%223%22%20y1%3D%2210%22%20x2%3D%2221%22%20y2%3D%2210%22%3E%3C%2Fcline%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 18px;
+        }
+
+        .modal-quick-select-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .modal-quick-select-buttons button {
+            background-color: var(--filter-button-bg);
+            color: var(--text-light);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .modal-quick-select-buttons button:hover {
+            background-color: #6a6a6a;
+        }
+        .modal-quick-select-buttons button.active {
+            background-color: var(--green-text-accent);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .modal-actions button {
+            background-color: var(--modal-button-bg);
+            color: var(--modal-button-text);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .modal-actions button:first-child {
+            background-color: transparent;
+            color: var(--text-subtle);
+            border: 1px solid var(--text-subtle);
+        }
+        .modal-actions button:first-child:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        .modal-actions button:last-child:hover {
+            background-color: var(--red-button-hover);
+        }
+
+        /* --- QR Payment Page Styles --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            background-color: var(--card-dark-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-shadow: var(--shadow-dark);
+            text-align: center;
+        }
+
+        .transfer-details-card .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .transfer-details-card .detail-row .label {
+            color: var(--text-subtle);
+        }
+        .transfer-details-card .detail-row .value {
+            font-weight: 500;
+        }
+        .transfer-details-card .detail-row .copy-icon {
+            margin-left: 5px;
+            color: var(--text-subtle);
+            cursor: pointer;
+        }
+        .transfer-details-card .amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--green-text-accent); /* Use green for amount as per screenshot 1 (PWvCC.png) */
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+        }
+        .transfer-details-card .amount span {
+            font-size: 16px; /* For currency symbol */
+            margin-right: 5px;
+        }
+
+        .timer-section {
+            background-color: var(--timer-bg);
+            color: var(--timer-text);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-dark);
+        }
+        .timer-section .icon {
+            font-size: 22px;
+        }
+
+        .qr-code-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--card-dark-bg);
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-dark);
+        }
+
+        .qr-code-placeholder {
+            width: 180px; /* Adjust size as needed */
+            height: 180px; /* Adjust size as needed */
+            border: 5px solid var(--qr-border);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Ensure image fits within border */
+            margin-bottom: 15px;
+        }
+
+        .qr-code-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensure QR code is fully visible */
+        }
+
+        .qr-code-section p {
+            font-size: 14px;
+            color: var(--text-subtle);
+            margin: 0 0 15px 0;
+            text-align: center;
+        }
+
+        .download-button, .save-image-button {
+            background-color: var(--button-blue);
+            color: var(--text-light);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-bottom: 10px; /* Space between buttons */
+            width: 80%; /* Make buttons fill more width */
+            max-width: 250px;
+        }
+
+        .download-button:hover, .save-image-button:hover {
+            background-color: var(--button-blue-hover);
+        }
+
+        .recharge-button-qr-page { /* Renamed to avoid conflict with Deposit page's button */
+            width: 100%;
+            background-color: var(--red-button);
+            color: var(--text-light);
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+            box-shadow: var(--shadow-dark);
+        }
+
+        .recharge-button-qr-page:hover {
+            background-color: #c82333;
+        }
+
+        .instructions-card {
+            background-color: var(--card-dark-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+            width: 100%;
+            box-shadow: var(--shadow-dark);
+        }
+
+        .instructions-card h4 {
+            color: var(--text-light);
+            font-size: 16px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .instructions-card ol {
+            list-style: decimal;
+            padding-left: 20px;
+            margin: 0;
+            color: var(--text-subtle);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .instructions-card ol li {
+            margin-bottom: 8px;
+        }
+        .instructions-card ol li strong {
+            color: var(--green-text-accent);
+        }
+    </style></head>
+<body>
+<div id="login-register-page">
+<div class="language-switcher">
+<select id="langSelect">
+<option value="en">English</option>
+<option value="hi">हिन्दी</option>
+</select>
+</div>
+<div class="container">
+<div class="tab-header">
+<div class="tab-btn active" id="tabRegister" onclick="showAuthTab('register')">Register</div>
+<div class="tab-btn" id="tabLogin" onclick="showAuthTab('login')">Login</div>
+</div>
+<div class="form-content">
+<div class="error-message" id="errorMessage"></div>
+<div class="active" id="register">
+    <div class="logo-img">
+        <img src="logo_image-Photoroom.png" alt="DIUWIN Logo" />
+      </div>
+      
+<div class="form-group">
+<label id="phoneLabel">Phone</label>
+<div class="phone-input-group">
+<select id="countryCodeRegister">
+<option value="+91">+91 (IND)</option>
+<option value="+1">+1 (USA)</option>
+<option value="+44">+44 (GBR)</option>
+<option value="+61">+61 (AUS)</option>
+<option value="+86">+86 (CHN)</option>
+<option value="+81">+81 (JPN)</option>
+<option value="+49">+49 (DEU)</option>
+<option value="+33">+33 (FRA)</option>
+<option value="+55">+55 (BRA)</option>
+<option value="+62">+62 (IDN)</option>
+<option value="+63">+63 (PHL)</option>
+<option value="+65">+65 (SGP)</option>
+<option value="+66">+66 (THA)</option>
+<option value="+84">+84 (VNM)</option>
+<option value="+971">+971 (UAE)</option>
+</select>
+<input id="registerPhoneNumber" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,''); checkRegisterFormValidity();" placeholder="Enter phone number" type="text"/>
+</div>
+</div>
+<div class="form-group">
+<label id="setPasswordLabel">Set Password</label>
+<input id="registerPassword" oninput="checkRegisterFormValidity();" placeholder="Set password" type="password"/>
+<i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('registerPassword', this)"></i>
+</div>
+<div class="form-group">
+<label id="confirmPasswordLabel">Confirm Password</label>
+<input id="confirmRegisterPassword" oninput="checkRegisterFormValidity();" placeholder="Confirm password" type="password"/>
+<i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('confirmRegisterPassword', this)"></i>
+</div>
+<div class="form-group">
+<label id="registerCodeLabel">Enter the code:</label>
+<div class="captcha-container">
+<span data-code="" id="register-captcha"></span>
+<i class="fas fa-sync-alt captcha-refresh" onclick="generateCaptcha('register')"></i>
+</div>
+<input id="register-captcha-input" maxlength="4" oninput="verifyCaptcha('register'); checkRegisterFormValidity();" placeholder="Enter code" type="text"/>
+</div>
+<button class="auth-button" disabled="" id="register-btn" onclick="handleAuthentication('register')">Register</button>
+<button class="secondary-btn" id="alreadyHaveAccountBtn" onclick="showAuthTab('login')">Already have an account?</button>
+</div>
+<div id="login">
+    <div class="logo-img">
+        <img src="logo_image-Photoroom.png" alt="DIUWIN Logo" />
+      </div>
+<div class="form-group">
+<label id="loginPhoneLabel">Phone</label>
+<div class="phone-input-group">
+<select id="countryCodeLogin">
+<option value="+91">+91 (IND)</option>
+<option value="+1">+1 (USA)</option>
+<option value="+44">+44 (GBR)</option>
+<option value="+61">+61 (AUS)</option>
+<option value="+86">+86 (CHN)</option>
+<option value="+81">+81 (JPN)</option>
+<option value="+49">+49 (DEU)</option>
+<option value="+33">+33 (FRA)</option>
+<option value="+55">+55 (BRA)</option>
+<option value="+62">+62 (IDN)</option>
+<option value="+63">+63 (PHL)</option>
+<option value="+65">+65 (SGP)</option>
+<option value="+66">+66 (THA)</option>
+<option value="+84">+84 (VNM)</option>
+<option value="+971">+971 (UAE)</option>
+</select>
+<input id="loginPhoneNumber" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,''); checkLoginFormValidity();" placeholder="Enter phone number" type="text"/>
+</div>
+</div>
+<div class="form-group">
+<label id="loginPasswordLabel">Password</label>
+<input id="loginPassword" oninput="checkLoginFormValidity();" placeholder="Enter password" type="password"/>
+<i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('loginPassword', this)"></i>
+</div>
+<div class="form-group">
+<label id="loginCodeLabel">Enter the code:</label>
+<div class="captcha-container">
+<span data-code="" id="login-captcha"></span>
+<i class="fas fa-sync-alt captcha-refresh" onclick="generateCaptcha('login')"></i>
+</div>
+<input id="login-captcha-input" maxlength="4" oninput="verifyCaptcha('login'); checkLoginFormValidity();" placeholder="Enter code" type="text"/>
+</div>
+<button class="auth-button" disabled="" id="login-btn" onclick="handleAuthentication('login')">Login</button>
+<button class="secondary-btn" id="newUserBtn" onclick="showAuthTab('register')">New user? Register</button>
+<div class="footer-links">
+<a id="forgotLink" onclick="showAuthTab('forgot')">Forgot Password?</a> |
+<a id="contactLink" onclick="showAuthTab('contact')">Contact Us</a>
+</div>
+</div>
+<div id="forgot">
+    <div class="logo-img">
+        <img src="logo_image-Photoroom.png" alt="DIUWIN Logo" />
+      </div>
+<div class="form-group">
+<label id="forgotPhoneLabel">Phone</label>
+<div class="phone-input-group">
+<select id="countryCodeForgot">
+    <option value="+91">+91 (IND)</option>
+    <option value="+1">+1 (USA)</option>
+    <option value="+44">+44 (GBR)</option>
+    <option value="+61">+61 (AUS)</option>
+    <option value="+86">+86 (CHN)</option>
+    <option value="+81">+81 (JPN)</option>
+    <option value="+49">+49 (DEU)</option>
+    <option value="+33">+33 (FRA)</option>
+    <option value="+55">+55 (BRA)</option>
+    <option value="+62">+62 (IDN)</option>
+    <option value="+63">+63 (PHL)</option>
+    <option value="+65">+65 (SGP)</option>
+    <option value="+66">+66 (THA)</option>
+    <option value="+84">+84 (VNM)</option>
+    <option value="+971">+971 (UAE)</option>
+</select>
+<input id="forgotPhoneNumber" oninput="this.value=this.value.replace(/[^0-9]/g,'')" placeholder="Enter phone number" type="text"/>
+</div>
+</div>
+<div class="form-group">
+<label id="oldPasswordLabel">Old Password</label>
+<input id="forgotOldPassword" placeholder="Enter old password" type="password"/>
+<i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('forgotOldPassword', this)"></i>
+</div>
+<div class="form-group">
+<label id="newPasswordLabel">New Password</label>
+<input id="forgotNewPassword" placeholder="Enter new password" type="password"/>
+<i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('forgotNewPassword', this)"></i>
+</div>
+<button class="auth-button" onclick="handleChangePassword()">Change Password</button>
+<button class="secondary-btn" id="forgotBack" onclick="showAuthTab('login')">Back to Login</button>
+</div>
+<div id="contact">
+    <div class="logo-img">
+        <img src="logo_image-Photoroom.png" alt="DIUWIN Logo" />
+      </div>
+<div class="contact-box" id="contact1">FAQ <i class="fas fa-chevron-right"></i></div>
+<div class="contact-box" id="contact2">Change Login ID <i class="fas fa-chevron-right"></i></div>
+<div class="contact-box" id="contact3">Retrieve Account <i class="fas fa-chevron-right"></i></div>
+<div class="contact-box" id="contact4">Game Problem <i class="fas fa-chevron-right"></i></div>
+<div class="tips" id="tipsBox">
+1. Select the issue and submit.<br/>2. Track status using Progress Query.
+</div>
+<button class="auth-button" id="progressQuery">Progress Query</button>
+<button class="secondary-btn" id="contactBack" onclick="showAuthTab('login')">Back to Login</button>
+</div>
+</div>
+</div>
+</div>
+<div id="game-page">
+<div class="diuwin-header">DIUWIN</div>
+<div class="jackpot-info">
+💰 Super Jackpot 💰
+<div class="jackpot-amount" id="jackpotAmount">₹ 8,888,888</div>
+</div>
+<div class="winning-info">
+<div class="winning-info-title">🏆 Recent Winners</div>
+<div id="winningList">
+<!-- Winning information will be dynamically added here by JavaScript -->
+</div>
+</div>
+<div class="earnings-chart">
+<div class="earnings-chart-title">📊 Today's Earnings</div>
+<div class="earnings-grid" id="earningsGrid">
+<!-- Earnings will be dynamically added/updated here by JavaScript -->
+</div>
+</div>
+<div class="tabs">
+<div class="tab"><img src="https://img.icons8.com/color/48/000000/lottery.png"/>Lottery</div>
+<div class="tab"><img src="https://img.icons8.com/color/48/000000/money-bag.png"/>Jackpot</div>
+<div class="tab"><img src="https://img.icons8.com/color/48/000000/slot-machine.png"/>Slots</div>
+</div>
+<div class="section">
+<div class="section-title">🎯 Lottery Games</div>
+<div class="games-grid">
+<!-- Updated game links to directly point to the provided URLs -->
+<div class="game-card">
+WinGo <span>#1001</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('WinGo', 'https://diuwinerr.site/wingo/?game_type=1')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('WinGo')">✨ Game Info</button>
+</div>
+<div class="game-card">
+K3 <span>#1002</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('K3', 'https://diuwinerr.site/k3/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('K3')">✨ Game Info</button>
+</div>
+<div class="game-card">
+5D <span>#1003</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('5D', 'https://diuwinerr.site/5d/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('5D')">✨ Game Info</button>
+</div>
+<div class="game-card">
+Mega Spin <span>#1004</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Mega Spin', 'https://diuwinerr.site/mega-spin/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Mega Spin')">✨ Game Info</button>
+</div>
+<div class="game-card">
+Lucky Draw <span>#1005</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Lucky Draw', 'https://diuwinerr.site/lucky-draw/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Lucky Draw')">✨ Game Info</button>
+</div>
+<div class="game-card">
+Fruit Blast <span>#1006</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Fruit Blast', 'https://diuwinerr.site/fruit-blast/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Fruit Blast')">✨ Game Info</button>
+</div>
+<div class="game-card">
+Treasure Hunt <span>#1007</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Treasure Hunt', 'https://diuwinerr.site/treasure-hunt/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Treasure Hunt')">✨ Game Info</button>
+</div>
+<div class="game-card">
+Color Clash <span>#1008</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Color Clash', 'https://diuwinerr.site/color-clash/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Color Clash')">✨ Game Info</button>
+</div>
+</div>
+</div>
+<div class="section">
+<div class="section-title">💰 Super Jackpot Games</div>
+<div class="games-grid">
+<div class="game-card">
+Crash <span>#2001</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Crash', 'https://diuwinerr.site/crash/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Crash')">✨ Game Info</button>
+</div>
+<div class="game-card">
+Plinko <span>#2002</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Plinko', 'https://diuwinerr.site/plinko/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Plinko')">✨ Game Info</button>
+</div>
+<div class="game-card">
+Mines <span>#2003</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Mines', 'https://diuwinerr.site/mines/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Mines')">✨ Game Info</button>
+</div>
+<div class="game-card">
+Dice Duel <span>#2004</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Dice Duel', 'https://diuwinerr.site/dice-duel/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Dice Duel')">✨ Game Info</button>
+</div>
+<div class="game-card">
+Goal <span>#2005</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Goal', 'https://diuwinerr.site/goal/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Goal')">✨ Game Info</button>
+</div>
+<div class="game-card">
+Dragon Tiger <span>#2006</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Dragon Tiger', 'https://diuwinerr.site/dragon-tiger/')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Dragon Tiger')">✨ Game Info</button>
+</div>
+<div class="game-card">
+Aviator <span>#2007</span>
+<button class="gemini-feature-button" onclick="openGameInNewTab('Aviator', 'https://www.tbgameloader.com/800/v34/home/#/?appid=800&amp;token=1-AZEPSUHFNKCVBTZ-1EDABB396BE3EAFD¤cy=307¤cy_signal=SU5S&amp;gep=eyJnbCI6WyJ3c3M6Ly9xcGFpi5tYmdhbWVsb2FkZXIuY29tIl19&amp;lang=en')">Play Game</button>
+<button class="gemini-feature-button" onclick="getGameInfoWithGemini('Aviator')">✨ Game Info</button>
+</div>
+</div>
+</div>
+<div class="section" style="text-align:center; font-size: 0.8em;">
+<div style="margin: 10px 0;">
+</div>
+<div style="text-align:left; padding: 10px; font-size: 0.75em; color: #eee;">
+<ul>
+<li>The platform advocates fairness, justice, and openness.</li>
+<li>DiuWin works with 10,000+ live dealers and verified games.</li>
+<li>Supports fast deposit and withdrawal, welcomes all.</li>
+</ul>
+<p style="color:lightgreen;">Gambling can be addictive, play responsibly.<br/>DiuWin is 18+ only.</p>
+</div>
+</div>
+<div class="bottom-padding"></div>  
+<div class="bottom-nav">
+<a href="3.html"><span>🏆</span>Promotion</a>
+<a href="4.html"><span>🎉</span>Activity</a>
+<a href="2.html"><span>💼</span>Wallet</a>
+<a href="#" onclick="openAccountPage()"><span>👤</span>Account</a></div>
+</div>
+<div id="account-page" style="display:none;">
+
+<div style="width: 100%; max-width: 450px; margin: auto; padding: 12px 10px; background: #222; display: flex; align-items: center; justify-content: space-between; color: white; font-weight: bold;">
+  <span style="font-size: 16px; cursor: pointer;" onclick="goBackToGameHome()">← Back to Game Home</span>
+  <span style="font-size: 20px; color: red; text-shadow: 0 0 4px red;">DIUWIN</span>
+</div>
+
+<div class="container">
+<div class="profile">
+<img alt="User" src="1.jpeg"/>
+<h3>Member58004</h3>
+<small>Member: 6057191</small><br/>
+<small>Last login: 2024-07-04 17:33:44</small>
+</div>
+<div class="balance">
+<p>Total Balance</p>
+<h2>₹ 0.00</h2>
+</div>
+<div class="menu">
+<div class="menu-item"><a href="2.html">Wallet</a></div>
+<div class="menu-item"><a href="11.html">Deposit</a></div> 
+<div class="menu-item"><a href="5.html">Withdraw</a></div>
+<div class="menu-item"><a href="6.html">VIP</a></div>
+</div>
+  <div class="history-container" style="margin-bottom: 20px;">
+  <div class="history-title"><span>History</span></div>
+  <a class="history-item" href="7.html">Game History</a>
+  <a class="history-item" href="8.html">Transaction History</a>
+  <a class="history-item" href="12.html">Deposit History</a>
+  <a class="history-item" href="9.html">Withdraw History</a>
+</div>
+
+<div class="history-container">
+  <div class="section-title">Options</div>
+  <a class="history-item" href="10.html">Notifications</a>
+  <a class="history-item" href="13.html">Gifts</a>
+  <a class="history-item" href="14.html">Game Statistics</a>
+</div>
+</div><div id="deposit-page" style="display:none;background-color:#363636;padding:0;margin:0;color:white;overflow-y:auto;max-height:100vh;">
+<div onclick="showPage('account-page')" style="padding: 15px; background: #404040; color: white; font-size: 18px; font-weight: bold; cursor: pointer;">
+      ← Back to Account
+    </div>
+<div class="container">
+<!-- DEPOSIT PAGE SECTION -->
+<div class="page-section" id="depositPage">
+<header class="header">
+<div class="back-arrow" onclick="goBack()">←</div> <!-- Left arrow -->
+<div class="title-deposit">Deposit</div>
+<a class="link" href="#" id="showDepositHistoryLink">Deposit history</a>
+</header>
+<div class="balance-card">
+<div class="label">Balance</div>
+<div class="amount">
+                    ₹<span id="currentBalance">0.00</span> <span class="refresh-icon">↻</span>
+</div>
+</div>
+<div class="section-header">Select channel</div>
+<div class="payment-methods">
+<div class="payment-method-item" data-channel="ark-pay">
+<img alt="ARK-PAY" src="https://via.placeholder.com/40/808080/ffffff?text=A"/>
+<span>ARK-PAY</span>
+<span class="plus-icon">+10%</span>
+</div>
+<div class="payment-method-item" data-channel="super-pay">
+<img alt="SUPER-PAY" src="https://via.placeholder.com/40/808080/ffffff?text=S"/>
+<span>SUPER-PAY</span>
+</div>
+<div class="payment-method-item" data-channel="ff-pay">
+<img alt="FF-PAY QR" src="https://via.placeholder.com/40/28a745/ffffff?text=F"/>
+<span>FF-PAY QR</span>
+<span class="plus-icon">+10%</span>
+</div>
+</div>
+<div class="channel-grid" id="channelGrid">
+<div class="channel-item active" data-channel-id="APP-Icepay">
+                    APP-Icepay
+                    <div class="balance-range">Balance:100 - 50K</div>
+</div>
+<div class="channel-item" data-channel-id="APP-7Days">
+                    APP-7Days
+                    <div class="balance-range">Balance:500 - 50K</div>
+</div>
+<div class="channel-item" data-channel-id="APP-super">
+                    APP-super
+                    <div class="balance-range">Balance:500 - 50K</div>
+</div>
+<div class="channel-item" data-channel-id="APP-Himos">
+                    APP-Himos
+                    <div class="balance-range">Balance:500 - 50K</div>
+</div>
+<div class="channel-item" data-channel-id="APP-Magicpay">
+                    APP-Magicpay
+                    <div class="balance-range">Balance:500 - 50K</div>
+</div>
+<div class="channel-item" data-channel-id="APP-Upay">
+                    APP-Upay
+                    <div class="balance-range">Balance:500 - 50K</div>
+</div>
+<div class="channel-item" data-channel-id="APP-dragon pay">
+                    APP-dragon pay
+                    <div class="balance-range">Balance:500 - 50K</div>
+</div>
+<div class="channel-item" data-channel-id="APP-Ok Pay">
+                    APP-Ok Pay
+                    <div class="balance-range">Balance:500 - 50K</div>
+</div>
+</div>
+<div class="section-header">Deposit amount</div>
+<div class="deposit-amount-section">
+<div class="amount-buttons">
+<div class="amount-btn active" data-amount="500">₹ 500</div>
+<div class="amount-btn" data-amount="2000">₹ 2K</div>
+<div class="amount-btn" data-amount="5000">₹ 5K</div>
+<div class="amount-btn" data-amount="10000">₹ 10K</div>
+<div class="amount-btn" data-amount="20000">₹ 20K</div>
+<div class="amount-btn" data-amount="50000">₹ 50K</div>
+</div>
+<div class="custom-amount-input">
+<span class="currency-symbol">₹</span>
+<input id="depositInput" placeholder="Enter amount" type="number" value="500"/>
+<button class="clear-btn" id="clearInputBtn">✕</button>
+</div>
+<button class="deposit-button" id="proceedToQrPayment">Deposit</button>
+</div>
+<div class="section-header">Recharge instructions</div>
+<div class="recharge-instructions">
+<ul>
+<li>First Deposit must be 2000</li>
+<li>If the transfer time is up, please fill out the deposit form again.</li>
+<li>The transfer amount must match the order you created, otherwise the money cannot be credited successfully.</li>
+<li>If you transfer the wrong amount, our company will not be responsible for the lost amount!</li>
+<li>Note: do not cancel the deposit order after the money has been transferred.</li>
+</ul>
+</div>
+</div>
+<!-- DEPOSIT HISTORY PAGE SECTION -->
+<div class="page-section hidden" id="depositHistoryPage">
+<header class="header">
+<div class="back-arrow" onclick="showDepositPage()">&lt;</div>
+<div class="title-deposit">Deposit history</div>
+<!-- Kept '+' sign as per screenshot for history page header -->
+<a class="link" href="#" onclick="showDepositPage()" style="
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+">
+  Deposit
+</a>
+</header>
+<div class="filter-buttons">
+<div class="filter-btn active" data-filter-type="all">
+<img alt="All" src="https://via.placeholder.com/18/28a745/ffffff?text=A"/> All
+                </div>
+<div class="filter-btn" data-filter-type="upi-app">
+<img alt="UPI-APP" src="https://via.placeholder.com/18/6c757d/ffffff?text=U"/> UPI-APP
+                </div>
+<div class="filter-btn" data-filter-type="upi-manual">
+<img alt="UPI-Manual" src="https://via.placeholder.com/18/6c757d/ffffff?text=M"/> UPI-Manual
+                </div>
+<div class="filter-btn" data-filter-type="other">
+<img src="https://via.placeholder.com/18/6c757d/ffffff?text=O"/> Other
+                </div>
+</div>
+<!-- Filter Content Area - Will contain either dropdowns, month picker, or chat -->
+<div class="filter-content-area" id="mainFilterContent">
+<!-- Dropdowns (Initially shown, hidden when month picker or chat is active) -->
+<div class="filter-row" id="dateFilterDropdowns">
+<select class="filter-dropdown" id="statusFilterDropdown">
+<option value="all-status">All Status</option>
+<option value="processing">Processing</option>
+<option value="success">Success</option>
+<option value="failed">Failed</option>
+</select>
+<select class="filter-dropdown" id="timeFilterDropdown">
+<option value="all-time">All Time</option>
+<option value="2024-5-20/2024-5-31">2024-5-20/2024-5-31</option>
+<option value="2025-01-01/2025-01-31">2025-01-01/2025-01-31</option>
+<option value="2025-02-01/2025-02-28">2025-02-01/2025-02-28</option>
+</select>
+</div>
+<!-- Custom Month Picker (Hidden by default, shown for "All" filter) -->
+<div class="month-picker-container hidden" id="monthPicker">
+<div class="month-picker-header">
+<span class="selected-month-year" id="selectedMonthYearDisplay">Nov. 2018</span>
+<div class="year-selector">
+<button id="prevYear">&lt;</button>
+<span id="currentYearDisplay">2018</span>
+<button id="nextYear">&gt;</button>
+</div>
+</div>
+<div class="month-grid" id="monthGrid">
+<!-- Months will be populated by JavaScript -->
+</div>
+<div class="month-picker-actions">
+<button id="monthPickerCancel">ABBRECHEN</button>
+<button id="monthPickerOk">OK</button>
+</div>
+</div>
+<!-- Date/Time Chat Interface (Hidden by default, shown for UPI-APP/UPI-Manual) -->
+<div class="date-time-chat-container hidden" id="dateTimeChat">
+<div class="date-time-chat-header">Select Date and Time</div>
+<div class="chat-messages" id="chatMessages">
+<div class="chat-message incoming">Please select the **Time** first.</div>
+</div>
+<div class="chat-input-area">
+<input id="chatInput" placeholder="HH:MM" type="time"/>
+<select id="chatYearSelect" style="display: none;"></select>
+<button id="sendDateBtn">Next</button>
+</div>
+</div>
+</div>
+<!-- Deposit Items will be dynamically rendered here -->
+<div id="depositHistoryList">
+<!-- Dynamic deposit items will be inserted here by JavaScript -->
+</div>
+<div class="no-more">
+                No more
+            </div>
+</div>
+<!-- QR PAYMENT PAGE SECTION (New Page) -->
+<div class="page-section hidden" id="qrPaymentPage">
+<header class="header">
+
+
+<div class="title-pay">Pay Now</div>
+<div class="back-button" onclick="showDepositPage()" style="
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-block;
+">
+  BACK
+</div>
+
+
+</header>
+<div class="main-content">
+<div class="card transfer-details-card">
+<div class="amount">
+<span>₹</span><span id="qrPageAmount">2,000.00</span> <!-- Target for dynamic amount -->
+</div>
+<div class="detail-row">
+<span class="label">Payment Type</span>
+<span class="value">UPI Manual</span>
+</div>
+<div class="detail-row">
+<span class="label">Order number</span>
+<span class="value">
+                            12345678901234567890
+                            <span class="copy-icon" onclick="copyText('12345678901234567890')">📋</span>
+</span>
+</div>
+</div>
+<div class="timer-section">
+<span class="icon">🕒</span>
+<span id="countdownTimer">05:00</span>
+</div>
+<div class="qr-code-section">
+<div class="qr-code-placeholder">
+<!-- QR Code Image Source -->
+<img alt="QR Code" id="qrCodeImage" src="scanner.jpg"/>
+</div>
+<p>Scan the code or copy the UPL ID to pay</p>
+<button class="download-button" id="downloadQrBtn">Download</button>
+<button class="save-image-button" id="saveQrBtn">Save Image</button>
+</div>
+<button class="recharge-button-qr-page">I have completed the recharge</button>
+<div class="card instructions-card">
+<h4>Important Notes:</h4>
+<ol>
+<li>Please copy the payment number to the payment app for payment.</li>
+<li>If the transfer time is up, please fill out the deposit form again.</li>
+<li>The transfer amount must match the order you created, otherwise the money cannot be credited successfully.</li>
+<li>If you transfer the wrong amount, our company will not be responsible for the lost amount!</li>
+<li>Note: do not cancel the deposit order after the money has been transferred.</li>
+<li>Deposit through this channel will get an additional <strong>10% cashback.</strong></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Chat Icon (Common for all pages) -->
+<div class="chat-icon">💬</div>
+<!-- Date Range Picker Modal (Common for Deposit History Page) -->
+<div class="date-range-modal-overlay" id="dateRangeModal">
+<div class="date-range-modal-content">
+<div class="modal-header">Select Date Range</div>
+<div class="modal-date-inputs">
+<label>
+                    From:
+                    <input id="modalFromDate" type="date"/>
+</label>
+<label>
+                    To:
+                    <input id="modalToDate" type="date"/>
+</label>
+</div>
+<div class="modal-quick-select-buttons">
+<button data-range="today">Today</button>
+<button data-range="yesterday">Yesterday</button>
+<button data-range="last7days">Last 7 Days</button>
+<button data-range="last30days">Last 30 Days</button>
+<button data-range="thisMonth">This Month</button>
+<button data-range="lastMonth">Last Month</button>
+</div>
+<div class="modal-actions">
+<button id="modalCancelBtn">Cancel</button>
+<button id="modalApplyBtn">Apply</button>
+</div>
+</div>
+</div>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Page Elements ---
+            const depositPage = document.getElementById('depositPage');
+            const depositHistoryPage = document.getElementById('depositHistoryPage');
+            const qrPaymentPage = document.getElementById('qrPaymentPage');
+
+            // --- Deposit Page Elements ---
+            const showDepositHistoryLink = document.getElementById('showDepositHistoryLink');
+            const currentBalance = document.getElementById('currentBalance');
+            const amountButtons = document.querySelectorAll('.deposit-amount-section .amount-btn');
+            const depositInput = document.getElementById('depositInput');
+            const clearInputBtn = document.getElementById('clearInputBtn');
+            const paymentMethodItems = document.querySelectorAll('.payment-method-item');
+            const channelItems = document.querySelectorAll('.channel-item');
+            const proceedToQrPaymentBtn = document.getElementById('proceedToQrPayment');
+
+            // --- Deposit History Page Elements ---
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const mainFilterContent = document.getElementById('mainFilterContent');
+            const dateFilterDropdowns = document.getElementById('dateFilterDropdowns');
+            const dateTimeChat = document.getElementById('dateTimeChat');
+            const monthPicker = document.getElementById('monthPicker');
+            const timeFilterDropdown = document.getElementById('timeFilterDropdown');
+            const depositHistoryList = document.getElementById('depositHistoryList'); // Container for dynamic history items
+
+            // Date Range Modal elements (for Deposit History)
+            const dateRangeModal = document.getElementById('dateRangeModal');
+            const modalFromDate = document.getElementById('modalFromDate');
+            const modalToDate = document.getElementById('modalToDate');
+            const modalQuickSelectButtons = document.querySelectorAll('.modal-quick-select-buttons button');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const modalApplyBtn = document.getElementById('modalApplyBtn');
+
+            // Chat related elements (for Deposit History)
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const chatYearSelect = document.getElementById('chatYearSelect');
+            const sendDateBtn = document.getElementById('sendDateBtn');
+
+            // Month Picker related elements (for Deposit History)
+            const selectedMonthYearDisplay = document.getElementById('selectedMonthYearDisplay');
+            const currentYearDisplay = document.getElementById('currentYearDisplay');
+            const prevYearBtn = document.getElementById('prevYear');
+            const nextYearBtn = document.getElementById('nextYear');
+            const monthGrid = document.getElementById('monthGrid');
+            const monthPickerCancelBtn = document.getElementById('monthPickerCancel');
+            const monthPickerOkBtn = document.getElementById('monthPickerOk');
+
+            // QR Payment Page elements (for countdown and dynamic amount)
+            const countdownTimerElement = document.getElementById('countdownTimer');
+            const qrPageAmountDisplay = document.getElementById('qrPageAmount');
+            const qrCodeImage = document.getElementById('qrCodeImage');
+            const downloadQrBtn = document.getElementById('downloadQrBtn');
+            const saveQrBtn = document.getElementById('saveQrBtn');
+
+
+            let currentStep = 0; // 0: Time, 1: Date, 2: Year (for chat)
+            let selectedTime = null;
+            let selectedDate = null; // Stores 'YYYY-MM-DD'
+            let selectedYearChat = null;
+
+            let currentMonthPickerYear;
+            let selectedMonthPickerMonth = new Date().getMonth(); // 0-indexed
+            let selectedMonthPickerYear = new Date().getFullYear();
+
+            const monthNames = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
+
+            // Variable to store the selected deposit amount
+            let selectedDepositAmount = 500; // Default value, matches initial input value
+
+            // Array to store deposit history dynamically
+            let depositHistory = [];
+
+            // --- Page Switching Functions ---
+            // Function to show only one page and hide others
+            function showPage(pageToShow) {
+                depositPage.classList.add('hidden');
+                depositHistoryPage.classList.add('hidden');
+                qrPaymentPage.classList.add('hidden');
+
+                pageToShow.classList.remove('hidden');
+
+                // If navigating to QR payment page, start the timer
+                if (pageToShow === qrPaymentPage) {
+                    startCountdownTimer();
+                    // Update the amount displayed on the QR page
+                    qrPageAmountDisplay.textContent = parseFloat(selectedDepositAmount).toFixed(2);
+                } else {
+                    stopCountdownTimer(); // Stop timer if navigating away
+                }
+
+                // If navigating to deposit history page, render the history
+                if (pageToShow === depositHistoryPage) {
+                    renderDepositHistory();
+                }
+            }
+
+            window.showDepositPage = function() {
+                showPage(depositPage);
+            }
+
+            window.showDepositHistoryPage = function() {
+                showPage(depositHistoryPage);
+                showHistoryFilterComponent('dropdowns');
+                filterButtons.forEach(b => b.classList.remove('active'));
+                document.querySelector('.filter-btn[data-filter-type="all"]').classList.add('active');
+            }
+
+            function showQrPaymentPage() {
+                showPage(qrPaymentPage);
+            }
+
+            window.goBack = function() {
+                if (!depositHistoryPage.classList.contains('hidden')) {
+                    showDepositPage();
+                } else if (!qrPaymentPage.classList.contains('hidden')) {
+                    showDepositPage(); // Go back to deposit from QR page
+                } else {
+                    console.log("Already on deposit page, cannot go back further.");
+                }
+            }
+
+            // Bind link to switch to Deposit History page
+            showDepositHistoryLink.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default link behavior
+                showDepositHistoryPage();
+            });
+
+            // Bind Deposit button to show QR Payment Page and add to history
+            proceedToQrPaymentBtn.addEventListener('click', () => {
+                // Get the current value from the input field as the selected amount
+                selectedDepositAmount = parseFloat(depositInput.value);
+                if (isNaN(selectedDepositAmount) || selectedDepositAmount <= 0) {
+                    alert("Please enter a valid deposit amount.");
+                    return;
+                }
+
+                // Add new deposit entry to history
+                const now = new Date();
+                const orderNumber = 'DIU' + now.getTime(); // Simple unique order number
+                const depositTime = now.toLocaleString('en-IN', {
+                    year: 'numeric', month: '2-digit', day: '2-digit',
+                    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+                }).replace(',', ''); // Format: DD/MM/YYYY HH:MM:SS AM/PM
+
+                const newDeposit = {
+                    amount: selectedDepositAmount,
+                    type: 'UPI Manual', // Assuming this for now, could be dynamic
+                    time: depositTime,
+                    orderNumber: orderNumber,
+                    status: 'processing' // Initial status
+                };
+                depositHistory.push(newDeposit);
+                console.log("New deposit added:", newDeposit);
+
+                showQrPaymentPage();
+            });
+
+
+            // --- Deposit Page Logic ---
+            currentBalance.textContent = '0.00';
+
+            // Amount button click handler
+            amountButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    amountButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    depositInput.value = button.dataset.amount;
+                    selectedDepositAmount = parseFloat(button.dataset.amount); // Update selected amount
+                });
+            });
+
+            // Handle manual input change to deselect amount buttons
+            depositInput.addEventListener('input', () => {
+                amountButtons.forEach(btn => btn.classList.remove('active'));
+                selectedDepositAmount = parseFloat(depositInput.value) || 0; // Update selected amount
+            });
+
+
+            // Clear input button handler
+            clearInputBtn.addEventListener('click', () => {
+                depositInput.value = '';
+                amountButtons.forEach(btn => btn.classList.remove('active'));
+                selectedDepositAmount = 0; // Reset selected amount
+            });
+
+            // Update active state for payment methods
+            paymentMethodItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    paymentMethodItems.forEach(pm => pm.classList.remove('active'));
+                    item.classList.add('active');
+                    console.log('Payment method selected:', item.dataset.channel);
+                });
+            });
+
+            // Update active state for channels
+            channelItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    channelItems.forEach(ch => ch.classList.remove('active'));
+                    item.classList.add('active');
+                    console.log('Channel selected:', item.dataset.channelId);
+                });
+            });
+
+            // Initial active states for Deposit Page
+            document.querySelector('.payment-method-item[data-channel="ark-pay"]').classList.add('active');
+            document.querySelector('.channel-item[data-channel-id="APP-Icepay"]').classList.add('active');
+            // Set the initial selected deposit amount from the default active button/input
+            selectedDepositAmount = parseFloat(depositInput.value);
+
+
+            // --- Deposit History Page Logic ---
+
+            // Function to render deposit history items dynamically
+            function renderDepositHistory() {
+                depositHistoryList.innerHTML = ''; // Clear existing list
+                if (depositHistory.length === 0) {
+                    depositHistoryList.innerHTML = '<div class="no-more">No deposit history yet.</div>';
+                    return;
+                }
+
+                // Render in reverse order (newest first)
+                for (let i = depositHistory.length - 1; i >= 0; i--) {
+                    const deposit = depositHistory[i];
+                    const statusClass = deposit.status; // 'processing', 'success', 'failed'
+
+                    const depositCardHtml = `
+                        <div class="deposit-item-card">
+                            <div class="deposit-item-header">
+                                <span class="deposit-label">Deposit</span>
+                                <span class="status ${statusClass}">${deposit.status.charAt(0).toUpperCase() + deposit.status.slice(1)}</span>
+                            </div>
+                            <div class="deposit-details">
+                                <div class="detail-row"><span class="label">Balance</span><span class="value amount">₹${deposit.amount.toFixed(2)}</span></div>
+                                <div class="detail-row"><span class="label">Type</span><span class="value">${deposit.type}</span></div>
+                                <div class="detail-row"><span class="label">Time</span><span class="value">${deposit.time}</span></div>
+                                <div class="detail-row"><span class="label">Order number</span><span class="value order-copy">${deposit.orderNumber} <span class="copy-icon" onclick="copyText('${deposit.orderNumber}')">📋</span></span></div>
+                            </div>
+                        </div>
+                    `;
+                    depositHistoryList.insertAdjacentHTML('beforeend', depositCardHtml);
+                }
+            }
+
+
+            function showHistoryFilterComponent(componentId) {
+                dateFilterDropdowns.classList.add('hidden');
+                dateTimeChat.classList.add('hidden');
+                monthPicker.classList.add('hidden');
+
+                if (componentId === 'dropdowns') {
+                    dateFilterDropdowns.classList.remove('hidden');
+                } else if (componentId === 'chat') {
+                    dateTimeChat.classList.remove('hidden');
+                    resetChat();
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                } else if (componentId === 'monthPicker') {
+                    monthPicker.classList.remove('hidden');
+                    renderMonthPicker();
+                }
+            }
+
+            function showDateRangeModal() {
+                dateRangeModal.classList.add('show');
+                const today = new Date().toISOString().split('T')[0];
+                modalFromDate.value = today;
+                modalToDate.value = today;
+                modalQuickSelectButtons.forEach(btn => btn.classList.remove('active'));
+            }
+
+            function hideDateRangeModal() {
+                dateRangeModal.classList.remove('show');
+            }
+
+            // Chat Related Functions
+            function populateYearSelectForChat() {
+                chatYearSelect.innerHTML = '';
+                const currentYear = new Date().getFullYear();
+                for (let i = currentYear - 5; i <= currentYear + 5; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    if (i === currentYear) {
+                        option.selected = true;
+                    }
+                    chatYearSelect.appendChild(option);
+                }
+            }
+            populateYearSelectForChat();
+
+            function addChatMessage(type, text) {
+                const msgDiv = document.createElement('div');
+                msgDiv.classList.add('chat-message', type);
+                msgDiv.innerHTML = text;
+                chatMessages.appendChild(msgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function resetChat() {
+                currentStep = 0;
+                selectedTime = null;
+                selectedDate = null;
+                selectedYearChat = null;
+                chatInput.type = 'time';
+                chatInput.value = '';
+                chatInput.style.display = 'block';
+                chatYearSelect.style.display = 'none';
+                sendDateBtn.textContent = 'Next';
+                sendDateBtn.style.display = 'block';
+                chatMessages.innerHTML = '<div class="chat-message incoming">Please select the **Time** first.</div>';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Month Picker Related Functions
+            function renderMonthPicker() {
+                currentYearDisplay.textContent = currentMonthPickerYear;
+                selectedMonthYearDisplay.textContent = `${monthNames[selectedMonthPickerMonth]}. ${currentMonthPickerYear}`;
+
+                monthGrid.innerHTML = '';
+                monthNames.forEach((month, index) => {
+                    const monthItem = document.createElement('div');
+                    monthItem.classList.add('month-item');
+                    monthItem.textContent = month;
+                    monthItem.dataset.monthIndex = index;
+
+                    if (index === selectedMonthPickerMonth && currentMonthPickerYear === selectedMonthPickerYear) {
+                         monthItem.classList.add('selected');
+                    }
+
+                    monthItem.addEventListener('click', () => {
+                        document.querySelectorAll('.month-item').forEach(item => item.classList.remove('selected'));
+                        monthItem.classList.add('selected');
+                        selectedMonthPickerMonth = parseInt(monthItem.dataset.monthIndex);
+                        selectedMonthPickerYear = currentMonthPickerYear;
+                        selectedMonthYearDisplay.textContent = `${monthNames[selectedMonthPickerMonth]}. ${selectedMonthPickerYear}`;
+                    });
+                    monthGrid.appendChild(monthItem);
+                });
+            }
+            currentMonthPickerYear = new Date().getFullYear();
+
+            // --- Event Listeners for Deposit History Page ---
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filterType = this.getAttribute('data-filter-type');
+
+                    if (filterType === 'all') {
+                        showHistoryFilterComponent('monthPicker');
+                        currentMonthPickerYear = new Date().getFullYear();
+                        selectedMonthPickerMonth = new Date().getMonth();
+                        selectedMonthPickerYear = new Date().getFullYear();
+                        renderMonthPicker();
+                    } else if (filterType === 'upi-manual' || filterType === 'upi-app') {
+                        showHistoryFilterComponent('chat');
+                    } else {
+                        showHistoryFilterComponent('dropdowns');
+                    }
+                });
+            });
+
+            timeFilterDropdown.addEventListener('focus', () => {
+                showDateRangeModal();
+                timeFilterDropdown.blur();
+            });
+
+            modalQuickSelectButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    modalQuickSelectButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const range = this.dataset.range;
+                    const today = new Date();
+                    let fromDate = new Date();
+                    let toDate = new Date();
+
+                    switch (range) {
+                        case 'today':
+                            break;
+                        case 'yesterday':
+                            fromDate.setDate(today.getDate() - 1);
+                            toDate.setDate(today.getDate() - 1);
+                            break;
+                        case 'last7days':
+                            fromDate.setDate(today.getDate() - 6);
+                            break;
+                        case 'last30days':
+                            fromDate.setDate(today.getDate() - 29);
+                            break;
+                        case 'thisMonth':
+                            fromDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                            toDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                            break;
+                        case 'lastMonth':
+                            fromDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                            toDate = new Date(today.getFullYear(), today.getMonth(), 0);
+                            break;
+                    }
+                    modalFromDate.value = fromDate.toISOString().split('T')[0];
+                    modalToDate.value = toDate.toISOString().split('T')[0];
+                });
+            });
+
+            modalCancelBtn.addEventListener('click', () => {
+                hideDateRangeModal();
+            });
+
+            modalApplyBtn.addEventListener('click', () => {
+                const fromDate = modalFromDate.value;
+                const toDate = modalToDate.value;
+
+                if (!fromDate || !toDate) {
+                    alert('Please select both From and To dates.');
+                    return;
+                }
+                if (new Date(fromDate) > new Date(toDate)) {
+                    alert('From Date cannot be after To Date.');
+                    return;
+                }
+
+                alert(`Applying filter for: ${fromDate} to ${toDate}`);
+                console.log(`Filtering data from ${fromDate} to ${toDate}`);
+                hideDateRangeModal();
+                timeFilterDropdown.querySelector('option[value="all-time"]').textContent = `${fromDate} to ${toDate}`;
+                timeFilterDropdown.value = 'all-time';
+            });
+
+            sendDateBtn.addEventListener('click', () => {
+                let inputValue = chatInput.value;
+
+                if (currentStep === 0) {
+                    if (!inputValue) {
+                        alert('Please select a time.');
+                        return;
+                    }
+                    selectedTime = inputValue;
+                    addChatMessage('outgoing', `Time: ${selectedTime}`);
+                    addChatMessage('incoming', 'Now please select the **Date** (day and month).');
+                    chatInput.type = 'date';
+                    chatInput.value = '';
+                    currentStep = 1;
+                } else if (currentStep === 1) {
+                    if (!inputValue) {
+                        alert('Please select a date.');
+                        return;
+                    }
+                    selectedDate = inputValue;
+                    addChatMessage('outgoing', `Date: ${selectedDate}`);
+                    addChatMessage('incoming', 'Finally, please select the **Year**.');
+                    chatInput.style.display = 'none';
+                    chatYearSelect.style.display = 'block';
+                    sendDateBtn.textContent = 'Confirm';
+                    currentStep = 2;
+                } else if (currentStep === 2) {
+                    selectedYearChat = chatYearSelect.value;
+                    if (!selectedYearChat) {
+                        alert('Please select a year.');
+                        return;
+                    }
+                    addChatMessage('outgoing', `Year: ${selectedYearChat}`);
+
+                    const combinedDate = `${selectedYearChat}-${selectedDate.substring(5)}`;
+                    const finalDateTimeFull = `${combinedDate} ${selectedTime}`;
+
+                    addChatMessage('incoming', `You selected: ${finalDateTimeFull}. Filtering results...`);
+                    console.log('Filtering history for:', finalDateTimeFull);
+
+                    const resetBtnHtml = '<button onclick="resetChatFromButton()" style="background: var(--green-text-accent); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 5px;">Reset</button>';
+                    addChatMessage('incoming', `You can select new date/time, or ${resetBtnHtml}`);
+
+                    chatInput.style.display = 'none';
+                    chatYearSelect.style.display = 'none';
+                    sendDateBtn.style.display = 'none';
+                }
+            });
+
+            window.resetChatFromButton = function() {
+                resetChat();
+            };
+
+            prevYearBtn.addEventListener('click', () => {
+                currentMonthPickerYear--;
+                renderMonthPicker();
+            });
+
+            nextYearBtn.addEventListener('click', () => {
+                currentMonthPickerYear++;
+                renderMonthPicker();
+            });
+
+            monthPickerCancelBtn.addEventListener('click', () => {
+                showHistoryFilterComponent('dropdowns');
+                filterButtons.forEach(b => b.classList.remove('active'));
+                document.querySelector('.filter-btn[data-filter-type="all"]').classList.add('active');
+            });
+
+            monthPickerOkBtn.addEventListener('click', () => {
+                if (selectedMonthPickerMonth !== null && selectedMonthPickerYear !== null) {
+                    const selectedMonthName = monthNames[selectedMonthPickerMonth];
+                    const selectedYear = selectedMonthPickerYear;
+                    const result = `${selectedMonthName} ${selectedYear}`;
+                    alert(`Selected month and year: ${result}`);
+                    console.log(`Selected month for filtering: Month Index ${selectedMonthPickerMonth}, Year ${selectedYear}`);
+                    showHistoryFilterComponent('dropdowns');
+                    timeFilterDropdown.querySelector('option[value="all-time"]').textContent = `${selectedMonthName}. ${selectedYear}`;
+                    timeFilterDropdown.value = 'all-time';
+                } else {
+                    alert('Please select a month.');
+                }
+            });
+
+            // Functionality to copy text to clipboard (common for order number)
+            window.copyText = function(text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Copied to clipboard: ' + text);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            }
+
+            // --- QR Payment Page Specific Logic (Timer & Download) ---
+            const initialTime = 5 * 60;
+            let timeLeft = initialTime;
+            let timerInterval;
+
+            function updateTimer() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+
+                countdownTimerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    countdownTimerElement.textContent = "00:00";
+                    alert("Time's up! Please create a new order if you wish to proceed.");
+                } else {
+                    timeLeft--;
+                }
+            }
+
+            function startCountdownTimer() {
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                }
+                timeLeft = initialTime;
+                timerInterval = setInterval(updateTimer, 1000);
+                updateTimer();
+            }
+
+            function stopCountdownTimer() {
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                }
+            }
+
+            // Function to download the QR code image
+            function downloadQrCode() {
+                const imageUrl = qrCodeImage.src;
+                if (!imageUrl) {
+                    alert("QR Code image not found.");
+                    return;
+                }
+
+                const link = document.createElement('a');
+                link.href = imageUrl;
+                link.download = 'DIUWINNER_QR_Code.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            downloadQrBtn.addEventListener('click', downloadQrCode);
+            saveQrBtn.addEventListener('click', downloadQrCode);
+
+            // Initial setup on page load: Show Deposit page by default
+            showPage(depositPage);
+        });
+    </script>
+</div>
+<!-- Custom Message Box HTML -->
+<div id="customMessageBoxModal" style="display: none;">
+<div>
+<i class="fas fa-times-circle" onclick="document.getElementById('customMessageBoxModal').style.display = 'none';"></i>
+<h3 id="customMessageBoxTitle"></h3>
+<p id="customMessageBoxMessage"></p>
+</div>
+</div>
+<script>
+// Function to display error message
+function showErrorMessage(message) {
+const errorMessageDiv = document.getElementById('errorMessage');
+errorMessageDiv.textContent = message;
+errorMessageDiv.style.display = 'block';
+}
+
+// Function to hide error message
+function hideErrorMessage() {
+const errorMessageDiv = document.getElementById('errorMessage');
+errorMessageDiv.style.display = 'none';
+errorMessageDiv.textContent = ''; // Clear content
+}
+
+// Custom Message Box Function
+function showCustomMessageBox(title, message) {
+const modal = document.getElementById('customMessageBoxModal');
+const titleEl = document.getElementById('customMessageBoxTitle');
+const messageEl = document.getElementById('customMessageBoxMessage');
+
+titleEl.textContent = title;
+messageEl.innerHTML = message.replace(/\n/g, '<br>'); // Preserve newlines
+modal.style.display = 'flex';
+hideErrorMessage(); // Hide any general error message once custom box is shown
+}
+
+
+function showAuthTab(id) {
+// Hide any existing error message
+hideErrorMessage();
+
+// Remove 'active' class from all tab buttons (Register/Login)
+document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+
+// Add 'active' class to the specific tab button (only if it's Register or Login)
+if (id === 'register' || id === 'login') {
+document.getElementById('tab' + id.charAt(0).toUpperCase() + id.slice(1)).classList.add("active");
+}
+
+// Hide all content divs within the form-content
+document.querySelectorAll(".form-content > div").forEach(div => div.classList.remove("active"));
+
+// Show the requested content div
+document.getElementById(id).classList.add("active");
+
+// Regenerate captcha and disable button when switching tabs
+if (id === 'register') {
+generateCaptcha('register');
+document.getElementById('register-captcha-input').value = ''; // Clear captcha input
+checkRegisterFormValidity(); // Re-evaluate button state
+} else if (id === 'login') {
+generateCaptcha('login');
+document.getElementById('login-captcha-input').value = ''; // Clear captcha input
+checkLoginFormValidity(); // Re-evaluate button state
+}
+
+// Reset password visibility when changing tabs
+document.querySelectorAll('.toggle-password').forEach(icon => {
+const inputId = icon.previousElementSibling.id;
+const input = document.getElementById(inputId);
+if (input && input.type === 'text') { // Check if input exists before accessing type
+input.type = 'password';
+icon.classList.remove('fa-eye-slash');
+icon.classList.add('fa-eye');
+}
+});
+}
+
+function generateCaptcha(id) {
+const code = Math.floor(1000 + Math.random() * 9000).toString();
+const el = document.getElementById(`${id}-captcha`);
+if (el) { // Check if element exists before setting content
+el.textContent = code;
+el.setAttribute("data-code", code);
+// Re-evaluate form validity after captcha generation
+if (id === 'register') checkRegisterFormValidity();
+else if (id === 'login') checkLoginFormValidity();
+}
+}
+
+function verifyCaptcha(id) {
+const inputEl = document.getElementById(`${id}-captcha-input`);
+if (!inputEl) return; // Exit if input element does not exist
+
+const input = inputEl.value;
+const correctEl = document.getElementById(`${id}-captcha`);
+if (!correctEl) return; // Exit if captcha element does not exist
+
+const correct = correctEl.getAttribute("data-code");
+
+// Hide error message if captcha is now correct
+if (input === correct) {
+hideErrorMessage();
+}
+
+// Re-evaluate form validity after captcha input
+if (id === 'register') checkRegisterFormValidity();
+else if (id === 'login') checkLoginFormValidity();
+}
+
+// Function to check validity for Register form
+function checkRegisterFormValidity() {
+const phoneNumber = document.getElementById('registerPhoneNumber').value;
+const password = document.getElementById('registerPassword').value;
+const confirmPassword = document.getElementById('confirmRegisterPassword').value;
+const captchaInput = document.getElementById('register-captcha-input').value;
+const correctCaptcha = document.getElementById('register-captcha').getAttribute("data-code");
+
+const isPhoneValid = phoneNumber.length === 10;
+const isPasswordValid = password.length >= 6;
+const doPasswordsMatch = password === confirmPassword;
+const isCaptchaCorrect = captchaInput === correctCaptcha;
+
+console.log('--- Register Form Validity Check ---'); // Log to console
+console.log(` Phone Valid: ${isPhoneValid} (Phone: ${phoneNumber})`); // Log phone validity
+console.log(` Password Valid: ${isPasswordValid} (Length: ${password.length})`); // Log password validity
+console.log(` Passwords Match: ${doPasswordsMatch}`); // Log password match
+console.log(` Captcha Input: "${captchaInput}", Correct Captcha: "${correctCaptcha}"`); // Log captcha input and correct captcha
+console.log(` Is Captcha Correct: ${isCaptchaCorrect}`); // Log captcha validity
+
+const registerBtn = document.getElementById('register-btn');
+if (registerBtn) {
+// The button should be enabled ONLY if ALL conditions are true
+const shouldBeDisabled = !(isPhoneValid && isPasswordValid && doPasswordsMatch && isCaptchaCorrect);
+registerBtn.disabled = shouldBeDisabled;
+console.log(` Register Button Disabled: ${registerBtn.disabled} (Based on all conditions)`); // Log button state
+}
+}
+
+// Function to check validity for Login form
+function checkLoginFormValidity() {
+const phoneNumber = document.getElementById('loginPhoneNumber').value;
+const password = document.getElementById('loginPassword').value;
+const captchaInput = document.getElementById('login-captcha-input').value;
+const correctCaptcha = document.getElementById('login-captcha').getAttribute("data-code");
+
+const isPhoneValid = phoneNumber.length === 10;
+const isPasswordValid = password.length > 0; // Just check if not empty for login
+const isCaptchaCorrect = captchaInput === correctCaptcha;
+
+console.log('--- Login Form Validity Check ---'); // Log to console
+console.log(` Phone Valid: ${isPhoneValid} (Phone: ${phoneNumber})`); // Log phone validity
+console.log(` Password Valid: ${isPasswordValid} (Length: ${password.length})`); // Log password validity
+console.log(` Captcha Input: "${captchaInput}", Correct Captcha: "${correctCaptcha}"`); // Log captcha input and correct captcha
+console.log(` Is Captcha Correct: ${isCaptchaCorrect}`); // Log captcha validity
+
+const loginBtn = document.getElementById('login-btn');
+if (loginBtn) {
+const shouldBeDisabled = !(isPhoneValid && isPasswordValid && isCaptchaCorrect);
+loginBtn.disabled = shouldBeDisabled;
+console.log(` Login Button Disabled: ${loginBtn.disabled} (Based on all conditions)`); // Log button state
+}
+}
+
+function handleAuthentication(type) {
+hideErrorMessage(); // Clear previous errors
+
+const captchaInputId = `${type}-captcha-input`;
+const captchaElementId = `${type}-captcha`;
+
+const captchaInputEl = document.getElementById(captchaInputId);
+const captchaElementEl = document.getElementById(captchaElementId);
+
+// Basic check for elements presence
+if (!captchaInputEl || !captchaElementEl) {
+showErrorMessage('Required form elements not found. Please refresh the page.');
+console.error('Missing form elements for authentication.'); // Log error to console
+return;
+}
+
+const captchaInput = captchaInputEl.value;
+const correctCaptcha = captchaElementEl.getAttribute("data-code");
+
+console.log(`Attempting to handle authentication for type: ${type}`); // Log to console
+console.log(`Captcha Input: "${captchaInput}", Correct Captcha: "${correctCaptcha}"`); // Log captcha input and correct captcha
+
+// Always check captcha first
+if (captchaInput !== correctCaptcha) {
+showErrorMessage('Incorrect captcha. Please try again.');
+generateCaptcha(type); // Regenerate captcha on incorrect attempt
+captchaInputEl.value = ''; // Clear input field
+const btn = document.getElementById(`${type}-btn`);
+if(btn) btn.disabled = true; // Ensure button is disabled
+console.log('Captcha mismatch. Returning.'); // Log to console
+return; // Stop execution
+}
+
+if (type === 'register') {
+const countryCode = document.getElementById('countryCodeRegister').value;
+const phoneNumber = document.getElementById('registerPhoneNumber').value;
+const password = document.getElementById('registerPassword').value;
+const confirmPassword = document.getElementById('confirmRegisterPassword').value;
+
+console.log(`Registering with Phone: ${countryCode}${phoneNumber}, Password: ${password.length > 0 ? '********' : ''}, Confirm: ${confirmPassword.length > 0 ? '********' : ''}`); // Log sensitive info obfuscated
+
+if (!phoneNumber || phoneNumber.length !== 10) { // Assuming 10-digit phone number
+showErrorMessage('Registration failed: Please enter a valid 10-digit phone number.');
+console.log('Registration failed: Invalid phone number.'); // Log to console
+return;
+}
+if (password.length < 6) {
+showErrorMessage('Registration failed: Password must be at least 6 characters long.');
+console.log('Registration failed: Password too short.'); // Log to console
+return;
+}
+if (password !== confirmPassword) {
+showErrorMessage('Registration failed: Passwords do not match.');
+console.log('Registration failed: Passwords do not match.'); // Log to console
+return; // Stop execution
+}
+
+// Store credentials in localStorage (WARNING: NOT SECURE for real applications!)
+localStorage.setItem('registeredPhone', countryCode + phoneNumber);
+localStorage.setItem('registeredPassword', password);
+console.log('Credentials stored in localStorage. Phone:', localStorage.getItem('registeredPhone')); // Log stored phone
+console.log('Credentials stored in localStorage. Password:', localStorage.getItem('registeredPassword') ? '********' : 'N/A'); // Log stored password obfuscated
+
+// After successful registration, set loggedIn flag and switch to game page
+sessionStorage.setItem('loggedIn', 'true');
+console.log('loggedIn flag set in sessionStorage.'); // Log to console
+
+document.getElementById('login-register-page').style.display = 'none';
+document.getElementById('game-page').style.display = 'block';
+console.log('Switched to game page.'); // Log to console
+
+startWinningListRotation(); // Start winner rotation only if on game page
+startEarningsChartUpdate(); // Start earnings chart update
+startJackpotUpdate(); // Start jackpot update
+showCustomMessageBox(translations[document.getElementById('langSelect').value].registrationSuccessTitle,
+translations[document.getElementById('langSelect').value].registrationSuccessMessage);
+
+} else if (type === 'login') {
+const countryCode = document.getElementById('countryCodeLogin').value;
+const phoneNumber = document.getElementById('loginPhoneNumber').value;
+const password = document.getElementById('loginPassword').value;
+
+const storedPhone = localStorage.getItem('registeredPhone');
+const storedPassword = localStorage.getItem('registeredPassword');
+
+console.log(`Logging in with Phone: ${countryCode}${phoneNumber}, Password: ${password.length > 0 ? '********' : ''}`); // Log sensitive info obfuscated
+console.log(`Retrieving from localStorage. Stored Phone: ${storedPhone}, Stored Password: ${storedPassword ? '********' : 'N/A'}`); // Log sensitive info obfuscated
+
+// Validate credentials against stored data
+if ((countryCode + phoneNumber) === storedPhone && password === storedPassword) {
+// Login successful
+sessionStorage.setItem('loggedIn', 'true');
+console.log('loggedIn flag set in sessionStorage.'); // Log to console
+document.getElementById('login-register-page').style.display = 'none';
+document.getElementById('game-page').style.display = 'block';
+console.log('Switched to game page.'); // Log to console
+startWinningListRotation(); // Start winner rotation only if on game page
+startEarningsChartUpdate(); // Start earnings chart update
+startJackpotUpdate(); // Start jackpot update
+// showCustomMessageBox('Login Successful', 'You have successfully logged in!'); // Optional success message
+} else {
+// General error message for incorrect credentials, covers both "no user" and "wrong password"
+showErrorMessage('Incorrect phone number or password. Please try again.');
+console.log('Login failed: Incorrect phone or password.'); // Log to console
+// Regenerate captcha and disable button for security after failed login attempt
+generateCaptcha(type);
+captchaInputEl.value = ''; // Clear captcha input
+const btn = document.getElementById(`${type}-btn`);
+if(btn) btn.disabled = true; // Ensure button is disabled
+}
+}
+}
+
+function handleChangePassword() {
+hideErrorMessage(); // Clear previous errors
+
+const countryCode = document.getElementById('countryCodeForgot').value;
+const phoneNumber = document.getElementById('forgotPhoneNumber').value;
+const oldPassword = document.getElementById('forgotOldPassword').value;
+const newPassword = document.getElementById('forgotNewPassword').value;
+
+const storedPhone = localStorage.getItem('registeredPhone');
+const storedPassword = localStorage.getItem('registeredPassword');
+
+if (!storedPhone || (countryCode + phoneNumber) !== storedPhone) {
+showErrorMessage('Phone number not registered or incorrect.');
+return;
+}
+
+if (oldPassword !== storedPassword) {
+showErrorMessage('Old password is incorrect.');
+return;
+}
+
+if (!newPassword || newPassword.length < 6) {
+showErrorMessage('New password must be at least 6 characters long.');
+return;
+}
+if (oldPassword === newPassword) {
+showErrorMessage('New password cannot be the same as the old password.');
+return;
+}
+
+// Update password in localStorage (WARNING: NOT SECURE for real applications!)
+localStorage.setItem('registeredPassword', newPassword);
+showCustomMessageBox(translations[document.getElementById('langSelect').value].passwordChangeSuccessTitle,
+translations[document.getElementById('langSelect').value].passwordChangeSuccessMessage);
+showAuthTab('login'); // Redirect to login page
+}
+
+function togglePasswordVisibility(inputId, iconElement) {
+const input = document.getElementById(inputId);
+if (input) { // Check if input element exists
+if (input.type === 'password') {
+input.type = 'text';
+iconElement.classList.remove('fa-eye');
+iconElement.classList.add('fa-eye-slash');
+} else {
+input.type = 'password';
+iconElement.classList.remove('fa-eye-slash');
+iconElement.classList.add('fa-eye');
+}
+}
+}
+
+// Function to open game in a new tab
+function openGameInNewTab(gameName, url) {
+window.open(url, '_blank');
+}
+
+// Game page specific script for rotating winners
+const winners = [
+{name: 'Mem***OOM', amount: '₹1,032.25'},
+{name: 'Mem***HG', amount: '₹1,185.00'},
+{name: 'Mem***TEW', amount: '₹1,205.00'},
+{name: 'Mem***CTN', amount: '₹900.00'},
+{name: 'Mem***BBY', amount: '₹1,950.00'},
+{name: 'Mem***JON', amount: '₹1,400.00'},
+{name: 'Mem***TOM', 'amount': '₹2,000.00'},
+{name: 'Mem***FST', amount: '₹1,800.00'}
+];
+let winnerIndex = 0;
+let winnerInterval; // To store the interval ID
+
+function rotateWinners() {
+const container = document.getElementById("winningList");
+if (!container) return; // Exit if container doesn't exist (e.g., on login page)
+let html = "";
+for (let i = 0; i < 5; i++) {
+const winner = winners[(winnerIndex + i) % winners.length];
+html += `<div style="margin:5px 0;border-bottom:1px dashed #aaa;padding:4px 0;">
+<strong>User:</strong> ${winner.name}<br/>
+<span style="color:lightgreen;"><strong>Winning:</strong> ${winner.amount}</span>
+</div>`;
+}
+container.innerHTML = html;
+winnerIndex = (winnerIndex + 1) % winners.length;
+}
+
+function startWinningListRotation() {
+if (!winnerInterval) { // Prevent multiple intervals
+winnerInterval = setInterval(rotateWinners, 1000);
+rotateWinners(); // Call once immediately
+}
+}
+
+// Today's Earnings Chart dynamic update
+const randomNames = [
+'Amit', 'Priya', 'Rahul', 'Neha', 'Sanjay', 'Pooja', 'Vikram', 'Anjali',
+'Rajesh', 'Divya', 'Mohan', 'Kavita', 'Gaurav', 'Shweta', 'Arjun', 'Smita',
+'Deepak', 'Meena', 'Vivek', 'Ritu', 'Alok', 'Swati', 'Harish', 'Preeti'
+];
+
+let earningsInterval; // To store the interval ID for earnings
+
+function updateEarningsChart() {
+const earningsGrid = document.getElementById('earningsGrid');
+if (!earningsGrid) return; // Exit if element doesn't exist
+
+let html = '';
+// Select 8 random names for display
+const selectedNames = [];
+const tempNames = [...randomNames]; // Create a mutable copy
+for (let i = 0; i < 8; i++) {
+const randomIndex = Math.floor(Math.random() * tempNames.length);
+selectedNames.push(tempNames.splice(randomIndex, 1)[0]); // Remove selected name to avoid duplicates
+}
+
+selectedNames.forEach((name) => {
+// Generate random earnings between 500 and 2500
+const amount = Math.floor(Math.random() * (2500 - 500 + 1)) + 500;
+html += `<div class="earnings-item">${name}: ₹${amount}</div>`;
+});
+earningsGrid.innerHTML = html;
+}
+
+function startEarningsChartUpdate() {
+if (!earningsInterval) { // Prevent multiple intervals
+earningsInterval = setInterval(updateEarningsChart, 1000); // Update every second
+updateEarningsChart(); // Call once immediately on start
+}
+}
+
+// Super Jackpot dynamic update
+let currentJackpot = 8888888; // Initial value
+let jackpotInterval;
+
+function updateJackpot() {
+const jackpotElement = document.getElementById('jackpotAmount');
+if (!jackpotElement) return;
+
+// Generate random increment between 10 and 250,000
+const increment = Math.floor(Math.random() * (250000 - 10 + 1)) + 10;
+currentJackpot += increment;
+
+// Format the number with commas and Indian Rupee symbol
+jackpotElement.textContent = `₹ ${currentJackpot.toLocaleString('en-IN')}`;
+}
+
+function startJackpotUpdate() {
+if (!jackpotInterval) { // Prevent multiple intervals
+jackpotInterval = setInterval(updateJackpot, 1000); // Update every second
+updateJackpot(); // Call once immediately on start
+}
+}
+
+// Gemini API Integration for Game Info
+async function getGameInfoWithGemini(gameName) {
+showErrorMessage(`✨ Generating info for ${gameName}...`); // Loading indicator
+
+const prompt = `मुझे गेम "${gameName}" के बारे में एक संक्षिप्त विवरण और कुछ खेलने के टिप्स प्रदान करें। यदि यह एक लॉटरी, कैसीनो या जुआ खेल है, तो कृपया सामान्य जानकारी और टिप्स दें, और किसी भी प्रकार के जुए को बढ़ावा न दें।`;
+
+let chatHistory = [];
+chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+const payload = { contents: chatHistory };
+const apiKey = ""; // Canvas will provide this at runtime
+const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+try {
+const response = await fetch(apiUrl, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify(payload)
+});
+const result = await response.json();
+
+if (result.candidates && result.candidates.length > 0 &&
+result.candidates[0].content && result.candidates[0].content.parts &&
+result.candidates[0].content.parts.length > 0) {
+const text = result.candidates[0].content.parts[0].text;
+showCustomMessageBox(`✨ ${gameName} जानकारी`, text);
+} else {
+showErrorMessage(`Unable to retrieve info for ${gameName}.`);
+}
+} catch (error) {
+console.error("Gemini API error:", error);
+showErrorMessage("An error occurred while generating information.");
+}
+}
+
+// New Gemini API Integration for Game Strategy Guide
+async function getGameStrategyWithGemini(gameName) {
+showErrorMessage(`✨ ${gameName} के लिए रणनीति जेनरेट हो रही है...`); // Loading indicator
+
+const prompt = `मुझे गेम "${gameName}" के लिए कुछ सामान्य रणनीतियाँ और खेलने के टिप्स प्रदान करें। जुए को बढ़ावा दिए बिना, जिम्मेदार गेमिंग, बैंकरोल प्रबंधन और संभावनाओं को समझने पर ध्यान दें। इसे संक्षिप्त रखें।`;
+
+let chatHistory = [];
+chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+const payload = { contents: chatHistory };
+const apiKey = ""; // Canvas will provide this at runtime
+const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+try {
+const response = await fetch(apiUrl, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify(payload)
+});
+const result = await response.json();
+
+if (result.candidates && result.candidates.length > 0 &&
+result.candidates[0].content && result.candidates[0].content.parts &&
+result.candidates[0].content.parts.length > 0) {
+const text = result.candidates[0].content.parts[0].text;
+showCustomMessageBox(`✨ ${gameName} रणनीति गाइड`, text);
+} else {
+showErrorMessage(`Unable to retrieve strategy for ${gameName}.`);
+}
+} catch (error) {
+console.error("Gemini API error:", error);
+showErrorMessage("An error occurred while generating information.");
+}
+}
+
+
+// Translations and Language Switcher
+const translations = {
+en: {
+tabRegister: "Register", tabLogin: "Login", phoneLabel: "Phone",
+setPasswordLabel: "Set Password", confirmPasswordLabel: "Confirm Password",
+registerCodeLabel: "Enter the code:", alreadyHaveAccountBtn: "Already have an account?",
+loginPhoneLabel: "Phone", loginPasswordLabel: "Password", loginCodeLabel: "Enter the code:",
+newUserBtn: "New user? Register", forgotPhoneLabel: "Phone", oldPasswordLabel: "Old Password",
+newPasswordLabel: "New Password", forgotBack: "Back to Login", contactBack: "Back to Login",
+progressQuery: "Progress Query", contact1: "FAQ", contact2: "Change Login ID",
+contact3: "Retrieve Account", contact4: "Game Problem", tipsBox: "1. Select the issue and submit.<br>2. Track status using Progress Query.",
+passwordChangeSuccessTitle: "Password Changed",
+passwordChangeSuccessMessage: "Your password has been successfully changed! Please login with your new password.",
+geminiInfoGenerating: "Generating info for {gameName}...",
+geminiInfoFailed: "Unable to retrieve info for {gameName}.",
+geminiAPIError: "An error occurred while generating information.",
+playGameButton: "Play Game",
+gameInfoButton: "Game Info",
+strategyGuideButton: "Strategy Guide"
+},
+hi: {
+tabRegister: "रजिस्टर करें", tabLogin: "लॉगिन करें", phoneLabel: "फोन",
+setPasswordLabel: "पासवर्ड सेट करें", confirmPasswordLabel: "पासवर्ड की पुष्टि करें",
+registerCodeLabel: "कोड दर्ज करें:", alreadyHaveAccountBtn: "पहले से खाता है?",
+loginPhoneLabel: "फोन", loginPasswordLabel: "पासवर्ड", loginCodeLabel: "कोड दर्ज करें:",
+newUserBtn: "नया उपयोगकर्ता?", forgotPhoneLabel: "फोन", oldPasswordLabel: "पुराना पासवर्ड",
+newPasswordLabel: "नया पासवर्ड", forgotBack: "लॉगिन पर वापस जाएं", contactBack: "लॉगिन पर वापस जाएं",
+progressQuery: "प्रगति पूछताछ", contact1: "सामान्य प्रश्न", contact2: "लॉगिन आईडी बदलें",
+contact3: "खाता पुनः प्राप्त करें", contact4: "गेम समस्या", tipsBox: "1. कृपया मुद्दा चुनें और सबमिट करें।<br>2. प्रगति पूछताछ से स्थिति ट्रैक करें।",
+registrationSuccessTitle: "पंजीकरण सफल",
+registrationSuccessMessage: "पंजीकरण सफल रहा! आप अब लॉग इन हैं।",
+passwordChangeSuccessTitle: "पासवर्ड बदला गया",
+passwordChangeSuccessMessage: "आपका पासवर्ड सफलतापूर्वक बदल दिया गया है! कृपया अपने नए पासवर्ड से लॉगिन करें।",
+geminiInfoGenerating: "Generating info for {gameName}...",
+geminiInfoFailed: "Unable to retrieve info for {gameName}.",
+geminiAPIError: "An error occurred while generating information.",
+playGameButton: "Play Game",
+gameInfoButton: "Game Info",
+strategyGuideButton: "Strategy Guide"
+}
+};
+
+document.getElementById("langSelect").addEventListener("change", function () {
+const lang = this.value;
+const t = translations[lang];
+const update = (id, html) => {
+const el = document.getElementById(id);
+if (el) el.innerHTML = html;
+};
+
+for (const key in t) {
+// Exclude captcha labels from general update to prevent removing the span
+if (key !== "registerCodeLabel" && key !== "loginCodeLabel" &&
+key !== "sendOtpTitle" && key !== "otpSentMessage" && key !== "registrationSuccessTitle" &&
+key !== "registrationSuccessMessage" && key !== "passwordChangeSuccessTitle" &&
+key !== "passwordChangeSuccessMessage" && key !== "geminiInfoGenerating" &&
+key !== "geminiInfoFailed" && key !== "geminiAPIError" && key !== "playGameButton" && key !== "gameInfoButton" && key !== "strategyGuideButton") {
+update(key, t[key]);
+}
+}
+
+// Explicitly update captcha labels to ensure the span and icon are correct
+const registerLabelEl = document.getElementById("registerCodeLabel");
+if (registerLabelEl) {
+registerLabelEl.innerHTML = `${t.registerCodeLabel}`;
+}
+generateCaptcha("register"); // Regenerate and display captcha
+
+const loginLabelEl = document.getElementById("loginCodeLabel");
+if (loginLabelEl) {
+loginLabelEl.innerHTML = `${t.loginCodeLabel}`;
+}
+generateCaptcha("login"); // Regenerate and display captcha;
+
+// Update game buttons (always English as per user's last request)
+document.querySelectorAll('.game-card .gemini-feature-button:nth-of-type(1)').forEach(button => {
+button.textContent = "Play Game";
+});
+document.querySelectorAll('.game-card .gemini-feature-button:nth-of-type(2)').forEach(button => {
+button.textContent = `✨ Game Info`;
+});
+document.querySelectorAll('.game-card .gemini-feature-button:nth-of-type(3)').forEach(button => {
+button.textContent = `✨ Strategy Guide`;
+});
+});
+
+// Initial load logic
+window.onload = () => {
+// Generate captchas for both forms on initial load
+generateCaptcha("register");
+generateCaptcha("login");
+hideErrorMessage(); // Ensure error message is hidden on load
+
+// Check if user was previously logged in (via sessionStorage)
+if (sessionStorage.getItem('loggedIn') === 'true') {
+document.getElementById('login-register-page').style.display = 'none';
+document.getElementById('game-page').style.display = 'block';
+startWinningListRotation(); // Start winner rotation only if on game page
+startEarningsChartUpdate(); // Start earnings chart update
+startJackpotUpdate(); // Start jackpot update
+} else {
+// If not logged in, show the login/register page by default
+document.getElementById('login-register-page').style.display = 'flex';
+document.getElementById('game-page').style.display = 'none';
+showAuthTab('register'); // Default to register tab on load
+}
+// Initial check for form validity to set button states
+checkRegisterFormValidity();
+checkLoginFormValidity();
+};
+</script>
+<script>
+// Toggle visibility of pages
+function showPage(pageId) {
+  document.getElementById("game-page").style.display = "none";
+  document.getElementById("account-page").style.display = "none";
+  document.getElementById("deposit-page").style.display = "none";
+  document.getElementById(pageId).style.display = "block";
+}
+
+// Triggered from game page when clicking "Account"
+function openAccountPage() {
+  showPage("account-page");
+}
+
+// Triggered from account page when clicking "Deposit"
+function openDepositPage() {
+  showPage("deposit-page");
+}
+
+// Sample trigger (you should attach these functions to real buttons in HTML)
+document.addEventListener("DOMContentLoaded", function() {
+  const accountBtn = document.querySelector(".game-card:contains('Account')");
+  if(accountBtn) accountBtn.addEventListener("click", openAccountPage);
+});
+</script>
+<script>
+function goBackToGameHome() {
+  document.getElementById('account-page').style.display = 'none';
+  document.getElementById('game-page').style.display = 'block';
+}
+</script>
+
+<script>
+function openGameInNewTab(gameName, url) {
+  if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+    window.open(url, '_blank');
+  } else {
+    window.location.href = url;
+  }
+}
+</script>
+
+</body>
+</html>

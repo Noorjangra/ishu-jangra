@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DIUWIN VIP Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      line-height: 1.4;
+    }
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 15px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .back-button {
+      background-color: red;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+      transition: transform 0.2s;
+    }
+    .back-button:hover {
+      transform: scale(1.05);
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 3px solid #c00;
+      overflow: hidden;
+      margin-right: 12px;
+      background-color: #333;
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .username {
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .vip-badge {
+      background-color: #c00;
+      color: #fff;
+      padding: 2px 6px;
+      font-size: 0.8rem;
+      border-radius: 3px;
+      margin-left: 6px;
+    }
+    .info-cards {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .card {
+      background-color: #900;
+      flex: 1 1 140px;
+      padding: 15px;
+      text-align: center;
+      border-radius: 10px;
+      min-width: 140px;
+    }
+    .card-value {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .card-label {
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+    .vip-section {
+      background-color: #111;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 10px;
+      border: 1px solid #333;
+    }
+    .vip-title {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .vip-level {
+      color: #fff;
+      margin-left: 6px;
+      margin-right: 6px;
+    }
+    .vip-progress {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+    .benefits {
+      margin-top: 20px;
+    }
+    .benefits-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .benefit-item {
+      background-color: #900;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .benefit-text {
+      max-width: 70%;
+    }
+    .benefit-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .benefit-desc {
+      font-size: 0.85rem;
+      color: #ddd;
+    }
+    .benefit-reward {
+      background-color: #c00;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+    .bottom-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .bottom-button {
+      flex: 1 1 140px;
+      background-color: #900;
+      padding: 12px;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+    .bottom-button:hover {
+      background-color: #b00;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="1..html" class="back-button">← Back</a>
+    </div>
+
+    <div class="profile">
+      <div class="avatar">
+        <img src="1.jpeg" alt="Avatar">
+      </div>
+      <div class="username">Member58004 <span class="vip-badge">VIP</span></div>
+    </div>
+
+    <div class="info-cards">
+      <div class="card">
+        <div class="card-value">0 EXP</div>
+        <div class="card-label">My experience</div>
+      </div>
+      <div class="card">
+        <div class="card-value">18 Day</div>
+        <div class="card-label">Payout time</div>
+      </div>
+    </div>
+
+    <div class="vip-section">
+      <div class="vip-title">✔️ <span class="vip-level">VIP1</span><span style="color:#f00;">Not open yet</span></div>
+      <div>Upgrading VIP 1 requires 3000</div>
+      <div>Bet ₹1 = 1EXP</div>
+      <div class="vip-progress">0/3000 &nbsp;&nbsp;&nbsp; 3000EXP can be leveled up</div>
+    </div>
+
+    <div class="benefits">
+      <div class="benefits-title">VIP1 Benefits level</div>
+
+      <div class="benefit-item">
+        <div class="benefit-text">
+          <div class="benefit-title">🎁 Level up reward</div>
+          <div class="benefit-desc">Each account can only receive 1 time per week</div>
+        </div>
+        <div class="benefit-reward">🎁 60</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-text">
+          <div class="benefit-title">⭐️ Weekly bonus</div>
+          <div class="benefit-desc">Each account can only receive 1 time per month</div>
+        </div>
+        <div class="benefit-reward">🎁 6</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-text">
+          <div class="benefit-title">🎁 Monthly bonus</div>
+          <div class="benefit-desc">Increase the extra income of the safe</div>
+        </div>
+        <div class="benefit-reward">🎁 30</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-text">
+          <div class="benefit-title">💰 Rebate rate</div>
+          <div class="benefit-desc">Increase income of rebate</div>
+        </div>
+        <div class="benefit-reward">💰 0.5%</div>
+      </div>
+    </div>
+
+    <div class="bottom-buttons">
+      <div class="bottom-button">History</div>
+      <div class="bottom-button">Rules</div>
+    </div>
+  </div>
+</body>
+</html>

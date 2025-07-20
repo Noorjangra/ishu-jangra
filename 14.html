@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Game Statistics</title>
+<style>
+body {
+margin: 12;
+font-family: Arial, sans-serif;
+background: #111;
+color: white;
+height: 100px;
+ }
+    .back-button {
+      background-color: red;
+      color: white;
+      font-size: 15px;
+      font-weight: 900;
+      padding: 10px 20px;
+      text-align: left;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+      transition: transform 0.2s;
+    }
+    .back-button:hover {
+      transform: scale(1.05);
+    }
+
+.container {
+max-width: 500px;
+margin: auto;
+padding: 20px;
+text-align: center;
+height: 100px;
+}
+
+h1 {
+margin-bottom: 20px;
+}
+
+.buttons button {
+background-color: red;
+color: white;
+border: none;
+padding: 12px 20px;
+margin: 5px;
+cursor: pointer;
+border-radius: 25px;
+transition: background 0.3s;
+font-weight: bold;
+}
+
+.buttons button:hover {
+background-color: #c0392b;
+}
+
+.buttons button:disabled {
+background-color: #aaa;
+cursor: not-allowed;
+}
+
+.stats-card {
+background-color: red;
+border-radius: 22px;
+padding: 20px;
+margin-top: 17px;
+height: 107px;
+}
+
+.stats-card h2, .stats-card p {
+color: white;
+font-size: 29px;
+}
+
+.slot-card {
+background-color: rgba(255, 255, 255, 0.1);
+border-radius: 15px;
+padding: 20px;
+margin-top: 10px;
+height: 218px;
+}
+
+.slot-card h3 {
+font-size: 33px;
+}
+
+.slot-card p {
+margin: 10px 0;
+font-size: 21px;
+}
+
+/* ✅ Highlighted labels in red and bold */
+.slot-card p::before {
+content: "";
+}
+
+.slot-card p span.label {
+color: #ff4d4d;
+font-weight: 900;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div style="text-align: left;">
+ <a href="1..html" class="back-button">← Back</a>
+</div>
+<h1>Game Statistics</h1>
+<div class="buttons">
+<button onclick="loadData(this, 'Today')">Today</button>
+<button onclick="loadData(this, 'Yesterday')">Yesterday</button>
+<button onclick="loadData(this, 'This week')">This week</button>
+<button onclick="loadData(this, 'This month')">This month</button>
+</div>
+
+<div class="stats-card" id="stats">
+<h2>₹ 0</h2>
+<p>Total bet</p>
+</div>
+
+<div class="slot-card">
+<h3>🎰 Slots</h3>
+<p><span class="label">Total bet:</span> ₹0</p>
+<p><span class="label">Number of bets:</span> 0</p>
+<p><span class="label">Profit:</span> ₹0</p>
+</div>
+</div>
+
+<script>
+function loadData(button, label) {
+const stats = document.getElementById("stats");
+const originalText = button.innerText;
+button.innerText = "Loading...";
+button.disabled = true;
+
+setTimeout(() => {
+button.innerText = label;
+button.disabled = false;
+stats.innerHTML = `
+<h2>₹ 0</h2>
+<p>${label} total bet</p>
+`;
+}, 1000); // 1 second delay
+}
+</script>
+</body>
+</html>

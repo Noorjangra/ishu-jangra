@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deposit History</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 480px;
+      width: 100%;
+      margin: auto;
+      padding: 16px;
+    }
+
+    .back-button {
+      background-color: #d32f2f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      margin-bottom: 10px;
+      width: 33%;
+    }
+
+    header h1 {
+      font-size: 22px;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      background-color: #1c1c1c;
+      border-radius: 8px;
+      max-width: 450px;
+      overflow: hidden;
+    }
+
+    .tab {
+      flex: 8;
+      text-align: center;
+      padding: 13px 0;
+      background-color: #333;
+      border: none;
+      color: #ccc;
+      cursor: pointer;
+      font-size: 15px;
+      max-width: 140px;
+      transition: background-color 0.3s ease;
+    }
+
+    .tab.active {
+      background-color: #d32f2f;
+      color: white;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin: 15px 0;
+      flex-wrap: wrap;
+    }
+
+    select {
+      flex: 1 1 45%;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .no-data {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .no-data img {
+      width: 250px;
+      height: auto;
+    }
+
+    .no-data p {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #bbb;
+    }
+
+    .help-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #d32f2f;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .help-button img {
+      width: 28px;
+      height: 28px;
+    }
+
+    #loading {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 16px;
+      color: #d32f2f;
+    }
+
+    @media (max-width: 360px) {
+      .tab {
+        font-size: 14px;
+        padding: 10px 0;
+      }
+
+      header h1 {
+        font-size: 20px;
+      }
+
+      select {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button class="back-button" onclick="history.back()">← Back</button>
+
+    <header>
+      <h1>Game History</h1>
+      <div class="tabs">
+        <button class="tab active" onclick="changeTab(this)">Lottery</button>
+        <button class="tab" onclick="changeTab(this)">Kerala</button>
+        <button class="tab" onclick="changeTab(this)">Slots</button>
+        <button class="tab" onclick="changeTab(this)">Cash</button>
+      </div>
+    </header>
+
+    <div class="filters">
+      <select>
+        <option>All</option>
+      </select>
+      <select>
+        <option>Choose a date</option>
+      </select>
+    </div>
+
+    <div id="loading">Loading...</div>
+
+    <div class="no-data">
+       <img src="2.png" alt="2.png" width="400">
+      <p>No data</p>
+    </div>
+
+  <script>
+    function changeTab(btn) {
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (btn.textContent !== 'All') {
+        const loader = document.getElementById('loading');
+        loader.style.display = 'block';
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 3000);
+      }
+    }
+  </script>
+</body>
+</html>

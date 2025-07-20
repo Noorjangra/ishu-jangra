@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wallet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #000000, #1a1a1a);
+      font-family: 'Arial', sans-serif;
+      color: white;
+    }
+
+    .mobile-wrapper {
+      max-width: 414px;
+      margin: 0 auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      background-color: #000;
+      min-height: 100vh;
+    }
+
+    .wallet-header {
+      position: relative; /* ✅ Important fix */
+      background: linear-gradient(to right, #ff1a1a, #b30000);
+      color: white;
+      text-align: center;
+      padding: 30px 20px 20px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
+    .wallet-header h1 {
+      margin: 10px 0 5px;
+      font-size: 26px;
+    }
+
+    .wallet-header .amount {
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .wallet-header .sub-text {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .back-button {
+      position: absolute; /* ✅ Positions inside the wallet-header */
+      top: 10px;
+      left: 10px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      background-color: rgba(255, 255, 255, 0.15);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    .summary {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .summary div {
+      font-weight: bold;
+      padding: 10px;
+    }
+
+    .wallet-graph {
+      background: #444;
+      border-radius: 20px;
+      margin: 0 15px;
+      padding: 20px 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .wallet-graph .wallet-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 15px;
+    }
+
+    .wallet-graph .circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: bold;
+      margin: 10px auto 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main-wallet {
+      border: 6px solid #ff4d4d;
+    }
+
+    .third-wallet {
+      border: 6px solid #666;
+    }
+
+    .transfer-button {
+      background: linear-gradient(to right, #ff1a1a, #b30000);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 25px;
+      font-size: 15px;
+      font-weight: bold;
+      margin: 20px auto;
+      display: block;
+      width: 80%;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-around;
+      margin: 25px 10px 10px;
+    }
+
+    .actions .item {
+      text-align: center;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .actions .item img {
+      width: 42px;
+      height: 42px;
+      margin-bottom: 5px;
+    }
+
+    .game-balances {
+      display: flex;
+      justify-content: space-around;
+      margin: 25px 10px 40px;
+    }
+
+    .game-card {
+      background: linear-gradient(to right, #ff1a1a, #b30000);
+      color: white;
+      padding: 12px;
+      border-radius: 12px;
+      width: 45%;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(255, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-wrapper">
+    <div class="wallet-header" id="wallet_page">
+      <a class="back-button" href="1..html">← Back</a>
+
+      <div style="font-size: 38px;">👛</div>
+      <h1>Wallet</h1>
+      <div class="amount">₹0.00</div>
+      <div class="sub-text">Total balance</div>
+    </div>
+
+    <div class="summary">
+      <div>0<br>Total amount</div>
+      <div>0<br>Total deposit amount</div>
+    </div>
+
+    <div class="wallet-graph">
+      <div class="wallet-stats">
+        <div>
+          <div class="circle main-wallet" id="mainWallet">100%<br>₹0.00</div>
+          <div>Main wallet</div>
+        </div>
+        <div>
+          <div class="circle third-wallet" id="thirdWallet">0%<br>₹0.00</div>
+          <div>3rd party wallet</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="transfer-button" onclick="startTransferAnimation()">Main wallet transfer</button>
+
+    <div class="actions">
+      <div class="item" onclick="alert('Deposit clicked')">
+        <img src="https://img.icons8.com/fluency/48/money-transfer.png"/>
+        <div>Deposit</div>
+      </div>
+      <div class="item" onclick="alert('Withdraw clicked')">
+        <img src="https://img.icons8.com/fluency/48/banknotes.png"/>
+        <div>Withdraw</div>
+      </div>
+      <div class="item">
+        <img src="https://img.icons8.com/fluency/48/bill.png"/>
+        <div>Deposit history</div>
+      </div>
+      <div class="item">
+        <img src="https://img.icons8.com/fluency/48/money-bag.png"/>
+        <div>Withdrawal history</div>
+      </div>
+    </div>
+
+    <div class="game-balances">
+      <div class="game-card">0.00<br>ARGame</div>
+      <div class="game-card">0.00<br>Lottery</div>
+    </div>
+  </div>
+
+  <script>
+    let inMainWallet = true;
+    function startTransferAnimation() {
+      const btn = document.querySelector('.transfer-button');
+      const mainWallet = document.getElementById('mainWallet');
+      const thirdWallet = document.getElementById('thirdWallet');
+      let count = 1;
+      btn.disabled = true;
+      const originalText = 'Main wallet transfer';
+      const interval = setInterval(() => {
+        btn.textContent = count;
+        count++;
+        if (count > 4) {
+          clearInterval(interval);
+          btn.textContent = originalText;
+          btn.disabled = false;
+
+          if (inMainWallet) {
+            mainWallet.innerHTML = '0%<br>₹0.00';
+            mainWallet.style.borderColor = '#666';
+            mainWallet.classList.remove('main-wallet');
+
+            thirdWallet.innerHTML = '100%<br>₹0.00';
+            thirdWallet.style.borderColor = '#ff4d4d';
+            thirdWallet.classList.add('main-wallet');
+            thirdWallet.classList.remove('third-wallet');
+          } else {
+            thirdWallet.innerHTML = '0%<br>₹0.00';
+            thirdWallet.style.borderColor = '#666';
+            thirdWallet.classList.remove('main-wallet');
+            thirdWallet.classList.add('third-wallet');
+
+            mainWallet.innerHTML = '100%<br>₹0.00';
+            mainWallet.style.borderColor = '#ff4d4d';
+            mainWallet.classList.add('main-wallet');
+          }
+
+          inMainWallet = !inMainWallet;
+        }
+      }, 400);
+    }
+  </script>
+</body>
+</html>
